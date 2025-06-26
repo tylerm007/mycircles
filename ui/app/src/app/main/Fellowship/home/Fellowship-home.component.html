@@ -1,0 +1,35 @@
+<o-form-layout-manager attr="Fellowship" mode="tab" title="FELLOWSHIP">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="FellowshipTable" 
+            service="Fellowship" 
+            entity="Fellowship" 
+            title="FELLOWSHIP"
+            keys="name"
+            columns="name;full_name;website" 
+            header-actions="R;D"
+            visible-columns="name;full_name;website"  
+            sort-columns="name" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #name attr="name" title=" name" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column #full_name attr="full_name" title="full_name" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #website attr="website" title="website" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

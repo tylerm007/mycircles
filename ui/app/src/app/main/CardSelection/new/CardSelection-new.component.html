@@ -1,0 +1,75 @@
+<o-form #CardSelectionForm attr="CardSelection_form_insert" service="CardSelection" entity="CardSelection"
+keys="id" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" >
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <o-integer-input #id attr="id" label=" id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+        <o-list-picker 
+        attr="card_id"
+        service="Card" 
+        entity="CardType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="no" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;card_id;fellowship_name" 
+        title="card_id"
+        visible-columns="id;fellowship_name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-list-picker 
+        attr="circle_type"
+        service="Circle" 
+        entity="CircleType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="no" 
+        enabled="yes" 
+        filter="yes"
+        value-column="circle_type" 
+        value-column-type="VARCHAR"  
+        keys="circle_type" 
+        columns="circle_type;circle_type;circle_type" 
+        title="circle_type"
+        visible-columns="circle_type;circle_type" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-list-picker 
+        attr="user_id"
+        service="User" 
+        entity="UserType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="no" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;user_id;name" 
+        title="user_id"
+        visible-columns="id;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-date-input #selected_date attr="selected_date" value-type="string" label="selected_date" enabled="yes" required="yes" format="YYYY-MM-DD" fxFlex="20%" class="form-field"></o-date-input>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

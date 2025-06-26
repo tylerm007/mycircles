@@ -1,0 +1,164 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Fellowship_form_edit" 
+        service="Fellowship" 
+        entity="Fellowship" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;U;D"
+        #oDetailForm keys="name" 
+        keys-sql-types="VARCHAR" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #full_name attr="full_name" label="full_name" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #website attr="website" label="website" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="CARD-fellowship_name">
+    <div layout-padding>
+      <o-table 
+        attr="CardTable" 
+        service="Card" 
+        entity="Card" 
+        keys="id"
+        parent-keys="fellowship_name:name"
+        columns="fellowship_name;card_type;circle_text;is_active;id"  
+        horizontal-scroll="yes"
+        detail-form-route="Card" 
+        edit-form-route="Card"
+        visible-columns="fellowship_name;card_type;circle_text;is_active;id"  
+        sort-columns="fellowship_name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #fellowship_name attr="fellowship_name" title=" fellowship_name" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #card_type attr="card_type" title="card_type" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #circle_text attr="circle_text" title="circle_text" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column attr="is_active" title="is_active">
+    <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+        render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+</o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="TAG-fellowship_name">
+    <div layout-padding>
+      <o-table 
+        attr="TagTable" 
+        service="Tag" 
+        entity="Tag" 
+        keys="id"
+        parent-keys="fellowship_name:name"
+        columns="tag_name;fellowship_name;id"  
+        horizontal-scroll="yes"
+        detail-form-route="Tag" 
+        edit-form-route="Tag"
+        visible-columns="tag_name;fellowship_name;id"  
+        sort-columns="tag_name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #tag_name attr="tag_name" title=" tag_name" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #fellowship_name attr="fellowship_name" title="fellowship_name" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="USER-fellowship_name">
+    <div layout-padding>
+      <o-table 
+        attr="UserTable" 
+        service="User" 
+        entity="User" 
+        keys="id"
+        parent-keys="fellowship_name:name"
+        columns="name;fellowship_name;password_hash;password_salt;email;cell;id"  
+        horizontal-scroll="yes"
+        detail-form-route="User" 
+        edit-form-route="User"
+        visible-columns="name;fellowship_name;password_hash;password_salt;email;cell;id"  
+        sort-columns="name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #name attr="name" title=" name" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #fellowship_name attr="fellowship_name" title="fellowship_name" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #password_hash attr="password_hash" title="password_hash" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #password_salt attr="password_salt" title="password_salt" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #email attr="email" title="email" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #cell attr="cell" title="cell" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

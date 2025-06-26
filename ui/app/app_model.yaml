@@ -1,0 +1,724 @@
+about:
+  date: June 25, 2025 21:40:01
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+application:
+  app:
+    description: generated Ontimize application
+    menu_group:
+      data:
+        icon: edit_square
+        menu_item:
+          Card:
+            icon: edit_square
+            menu_name: Card
+            menu_title: Card
+            page:
+              detail:
+                columns: fellowship_name,card_type,circle_text,is_active,id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Card
+                typescript_name: detail_component.jinja
+                visible_columns: fellowship_name,card_type,circle_text,is_active,id
+              home:
+                columns: fellowship_name,card_type,circle_text,is_active,id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Card
+                typescript_name: home_template.jinja
+                visible_columns: fellowship_name,card_type,circle_text,is_active,id
+              new:
+                columns: fellowship_name,card_type,circle_text,is_active,id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Card
+                typescript_name: new_component.jinja
+                visible_columns: fellowship_name,card_type,circle_text,is_active,id
+            template_name: module.jinja
+          CardSelection:
+            icon: edit_square
+            menu_name: CardSelection
+            menu_title: CardSelection
+            page:
+              detail:
+                columns: id,card_id,circle_type,user_id,selected_date
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: CardSelection
+                typescript_name: detail_component.jinja
+                visible_columns: id,card_id,circle_type,user_id,selected_date
+              home:
+                columns: id,card_id,circle_type,user_id,selected_date
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: CardSelection
+                typescript_name: home_template.jinja
+                visible_columns: id,card_id,circle_type,user_id,selected_date
+              new:
+                columns: id,card_id,circle_type,user_id,selected_date
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: CardSelection
+                typescript_name: new_component.jinja
+                visible_columns: id,card_id,circle_type,user_id,selected_date
+            template_name: module.jinja
+          CardTag:
+            icon: edit_square
+            menu_name: CardTag
+            menu_title: CardTag
+            page:
+              detail:
+                columns: id,card_id,tag_id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: CardTag
+                typescript_name: detail_component.jinja
+                visible_columns: id,card_id,tag_id
+              home:
+                columns: id,card_id,tag_id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: CardTag
+                typescript_name: home_template.jinja
+                visible_columns: id,card_id,tag_id
+              new:
+                columns: id,card_id,tag_id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: CardTag
+                typescript_name: new_component.jinja
+                visible_columns: id,card_id,tag_id
+            template_name: module.jinja
+          Cardtype:
+            icon: edit_square
+            menu_name: Cardtype
+            menu_title: Cardtype
+            page:
+              detail:
+                columns: card_type
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Cardtype
+                typescript_name: detail_component.jinja
+                visible_columns: card_type
+              home:
+                columns: card_type
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Cardtype
+                typescript_name: home_template.jinja
+                visible_columns: card_type
+              new:
+                columns: card_type
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Cardtype
+                typescript_name: new_component.jinja
+                visible_columns: card_type
+            template_name: module.jinja
+          Circle:
+            icon: edit_square
+            menu_name: Circle
+            menu_title: Circle
+            page:
+              detail:
+                columns: circle_type,decription
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Circle
+                typescript_name: detail_component.jinja
+                visible_columns: circle_type,decription
+              home:
+                columns: circle_type,decription
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Circle
+                typescript_name: home_template.jinja
+                visible_columns: circle_type,decription
+              new:
+                columns: circle_type,decription
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Circle
+                typescript_name: new_component.jinja
+                visible_columns: circle_type,decription
+            template_name: module.jinja
+          DailyReponseCount:
+            icon: edit_square
+            menu_name: DailyReponseCount
+            menu_title: DailyReponseCount
+            page:
+              detail:
+                columns: user_id,response_date,count_inner,count_middle,count_outer
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: DailyReponseCount
+                typescript_name: detail_component.jinja
+                visible_columns: user_id,response_date,count_inner,count_middle,count_outer
+              home:
+                columns: user_id,response_date,count_inner,count_middle,count_outer
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: DailyReponseCount
+                typescript_name: home_template.jinja
+                visible_columns: user_id,response_date,count_inner,count_middle,count_outer
+              new:
+                columns: user_id,response_date,count_inner,count_middle,count_outer
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: DailyReponseCount
+                typescript_name: new_component.jinja
+                visible_columns: user_id,response_date,count_inner,count_middle,count_outer
+            template_name: module.jinja
+          Fellowship:
+            icon: edit_square
+            menu_name: Fellowship
+            menu_title: Fellowship
+            page:
+              detail:
+                columns: name,full_name,website
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Fellowship
+                typescript_name: detail_component.jinja
+                visible_columns: name,full_name,website
+              home:
+                columns: name,full_name,website
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Fellowship
+                typescript_name: home_template.jinja
+                visible_columns: name,full_name,website
+              new:
+                columns: name,full_name,website
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Fellowship
+                typescript_name: new_component.jinja
+                visible_columns: name,full_name,website
+            template_name: module.jinja
+          Response:
+            icon: edit_square
+            menu_name: Response
+            menu_title: Response
+            page:
+              detail:
+                columns: id,card_id,user_id,response_date,response_text,response_bool,response_range
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Response
+                typescript_name: detail_component.jinja
+                visible_columns: id,card_id,user_id,response_date,response_text,response_bool,response_range
+              home:
+                columns: id,card_id,user_id,response_date,response_text,response_bool,response_range
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Response
+                typescript_name: home_template.jinja
+                visible_columns: id,card_id,user_id,response_date,response_text,response_bool,response_range
+              new:
+                columns: id,card_id,user_id,response_date,response_text,response_bool,response_range
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Response
+                typescript_name: new_component.jinja
+                visible_columns: id,card_id,user_id,response_date,response_text,response_bool,response_range
+            template_name: module.jinja
+          Tag:
+            icon: edit_square
+            menu_name: Tag
+            menu_title: Tag
+            page:
+              detail:
+                columns: tag_name,fellowship_name,id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Tag
+                typescript_name: detail_component.jinja
+                visible_columns: tag_name,fellowship_name,id
+              home:
+                columns: tag_name,fellowship_name,id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Tag
+                typescript_name: home_template.jinja
+                visible_columns: tag_name,fellowship_name,id
+              new:
+                columns: tag_name,fellowship_name,id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Tag
+                typescript_name: new_component.jinja
+                visible_columns: tag_name,fellowship_name,id
+            template_name: module.jinja
+          User:
+            icon: edit_square
+            menu_name: User
+            menu_title: User
+            page:
+              detail:
+                columns: name,fellowship_name,password_hash,password_salt,email,cell,id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: User
+                typescript_name: detail_component.jinja
+                visible_columns: name,fellowship_name,password_hash,password_salt,email,cell,id
+              home:
+                columns: name,fellowship_name,password_hash,password_salt,email,cell,id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: User
+                typescript_name: home_template.jinja
+                visible_columns: name,fellowship_name,password_hash,password_salt,email,cell,id
+              new:
+                columns: name,fellowship_name,password_hash,password_salt,email,cell,id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: User
+                typescript_name: new_component.jinja
+                visible_columns: name,fellowship_name,password_hash,password_salt,email,cell,id
+            template_name: module.jinja
+        menu_name: data
+        menu_title: data
+        opened: true
+    name: app
+authentication: '{system-default}'
+entities:
+  Card:
+    columns:
+    - label: ' fellowship_name*'
+      name: fellowship_name
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: card_type
+      template: text
+      type: VARCHAR
+    - name: circle_text
+      required: true
+      template: text
+      type: TEXT
+    - name: is_active
+      type: Boolean
+    - name: id
+      template: integer
+      type: INTEGER
+    favorite: fellowship_name
+    hidden: {}
+    label: Card
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - card_id
+      name: CardSelectionList
+      resource: CardSelection
+    - direction: tomany
+      fks:
+      - card_id
+      name: CardTagList
+      resource: CardTag
+    - direction: toone
+      fks:
+      - card_type
+      name: cardtype
+      resource: Cardtype
+    - direction: toone
+      fks:
+      - fellowship_name
+      name: fellowship
+      resource: Fellowship
+    type: Card
+  CardSelection:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: card_id
+      template: integer
+      type: INTEGER
+    - name: circle_type
+      template: text
+      type: VARCHAR
+    - name: user_id
+      template: integer
+      type: INTEGER
+    - name: selected_date
+      required: true
+      type: DATE
+    favorite: id
+    hidden: {}
+    label: CardSelection
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - card_id
+      name: ResponseList
+      resource: Response
+    - direction: toone
+      fks:
+      - card_id
+      name: card
+      resource: Card
+    - direction: toone
+      fks:
+      - circle_type
+      name: circle
+      resource: Circle
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: CardSelection
+  CardTag:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: card_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: tag_id
+      required: true
+      template: integer
+      type: INTEGER
+    favorite: id
+    hidden: {}
+    label: CardTag
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - card_id
+      name: card
+      resource: Card
+    - direction: toone
+      fks:
+      - tag_id
+      name: tag
+      resource: Tag
+    type: CardTag
+  Cardtype:
+    columns:
+    - label: ' card_type*'
+      name: card_type
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    favorite: card_type
+    hidden: {}
+    label: Cardtype
+    primary_key:
+    - card_type
+    tab_groups:
+    - direction: tomany
+      fks:
+      - card_type
+      name: CardList
+      resource: Card
+    type: Cardtype
+  Circle:
+    columns:
+    - label: ' circle_type*'
+      name: circle_type
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: decription
+      template: text
+      type: TEXT
+    favorite: circle_type
+    hidden: {}
+    label: Circle
+    primary_key:
+    - circle_type
+    tab_groups:
+    - direction: tomany
+      fks:
+      - circle_type
+      name: CardSelectionList
+      resource: CardSelection
+    type: Circle
+  DailyReponseCount:
+    columns:
+    - label: ' user_id*'
+      name: user_id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: response_date
+      required: true
+      type: DATE
+    - default: '0'
+      name: count_inner
+      template: integer
+      type: INTEGER
+    - default: '0'
+      name: count_middle
+      template: integer
+      type: INTEGER
+    - default: '0'
+      name: count_outer
+      template: integer
+      type: INTEGER
+    favorite: user_id
+    hidden: {}
+    label: DailyReponseCount
+    primary_key:
+    - user_id
+    - response_date
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      - response_date
+      name: ResponseList
+      resource: Response
+    type: DailyReponseCount
+  Fellowship:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: full_name
+      template: text
+      type: VARCHAR
+    - name: website
+      template: text
+      type: VARCHAR
+    favorite: name
+    hidden: {}
+    label: Fellowship
+    primary_key:
+    - name
+    tab_groups:
+    - direction: tomany
+      fks:
+      - fellowship_name
+      name: CardList
+      resource: Card
+    - direction: tomany
+      fks:
+      - fellowship_name
+      name: TagList
+      resource: Tag
+    - direction: tomany
+      fks:
+      - fellowship_name
+      name: UserList
+      resource: User
+    type: Fellowship
+  Response:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: card_id
+      template: integer
+      type: INTEGER
+    - name: user_id
+      template: integer
+      type: INTEGER
+    - name: response_date
+      required: true
+      type: DATE
+    - name: response_text
+      template: text
+      type: TEXT
+    - name: response_bool
+      type: Boolean
+    - name: response_range
+      template: integer
+      type: INTEGER
+    favorite: id
+    hidden: {}
+    label: Response
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - card_id
+      name: card
+      resource: CardSelection
+    - direction: toone
+      fks:
+      - user_id
+      - response_date
+      name: daily_reponse_count
+      resource: DailyReponseCount
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Response
+  Tag:
+    columns:
+    - label: ' tag_name*'
+      name: tag_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: fellowship_name
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    favorite: tag_name
+    hidden: {}
+    label: Tag
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - tag_id
+      name: CardTagList
+      resource: CardTag
+    - direction: toone
+      fks:
+      - fellowship_name
+      name: fellowship
+      resource: Fellowship
+    type: Tag
+  User:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: fellowship_name
+      template: text
+      type: VARCHAR
+    - name: password_hash
+      template: text
+      type: VARCHAR
+    - name: password_salt
+      template: text
+      type: VARCHAR
+    - name: email
+      template: text
+      type: VARCHAR
+    - name: cell
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    favorite: name
+    hidden: {}
+    label: User
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      name: CardSelectionList
+      resource: CardSelection
+    - direction: tomany
+      fks:
+      - user_id
+      name: ResponseList
+      resource: Response
+    - direction: toone
+      fks:
+      - fellowship_name
+      name: fellowship
+      resource: Fellowship
+    type: User
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    api_endpoint: http://localhost:5656/api
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: YYYY-MM-DD
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: JSONAPI
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

@@ -1,0 +1,90 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Table Card {
+    id INTEGER [primary key]
+    fellowship_name VARCHAR(5) 
+    circle_text TEXT 
+    card_type VARCHAR(20) 
+    is_active BOOLEAN 
+    }
+
+Table Cardtype {
+    card_type VARCHAR(20) [primary key]
+    }
+
+Table Fellowship {
+    name VARCHAR(5) [primary key]
+    full_name VARCHAR(100) 
+    website VARCHAR(1000) 
+    }
+
+Table CardSelection {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    card_id INTEGER 
+    circle_type VARCHAR(10) 
+    selected_date DATE 
+    }
+
+Table Circle {
+    circle_type VARCHAR(10) [primary key]
+    decription TEXT 
+    }
+
+Table User {
+    id INTEGER [primary key]
+    name VARCHAR(100) 
+    password_hash VARCHAR(250) 
+    password_salt VARCHAR(250) 
+    fellowship_name VARCHAR(5) 
+    email VARCHAR(255) 
+    cell VARCHAR(25) 
+    }
+
+Table CardTag {
+    id INTEGER [primary key]
+    card_id INTEGER 
+    tag_id INTEGER 
+    }
+
+Table Tag {
+    id INTEGER [primary key]
+    tag_name VARCHAR(50) 
+    fellowship_name VARCHAR(5) 
+    }
+
+Table DailyReponseCount {
+    user_id INTEGER [primary key]
+    response_date DATE 
+    count_inner INTEGER 
+    count_middle INTEGER 
+    count_outer INTEGER 
+    }
+
+Table Response {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    card_id INTEGER 
+    response_date DATE 
+    response_text TEXT 
+    response_bool BOOLEAN 
+    response_range INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Card.(card_type) < Cardtype.(card_type)
+    Ref: Card.(fellowship_name) < Fellowship.(name)
+    Ref: CardSelection.(card_id) < Card.(id)
+    Ref: CardSelection.(circle_type) < Circle.(circle_type)
+    Ref: CardSelection.(user_id) < User.(id)
+    Ref: User.(fellowship_name) < Fellowship.(name)
+    Ref: CardTag.(card_id) < Card.(id)
+    Ref: CardTag.(tag_id) < Tag.(id)
+    Ref: Tag.(fellowship_name) < Fellowship.(name)
+    Ref: Response.(card_id) < CardSelection.(id)
+    Ref: Response.(user_id, response_date) < DailyReponseCount.(user_id, user_id)
+    Ref: Response.(user_id) < User.(id)

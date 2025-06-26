@@ -1,0 +1,31 @@
+<o-form-layout-manager attr="Cardtype" mode="tab" title="CARDTYPE">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="CardtypeTable" 
+            service="Cardtype" 
+            entity="Cardtype" 
+            title="CARDTYPE"
+            keys="card_type"
+            columns="card_type" 
+            header-actions="R;D"
+            visible-columns="card_type"  
+            sort-columns="card_type" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #card_type attr="card_type" title=" card_type" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

@@ -1,0 +1,60 @@
+<o-form-layout-manager attr="Response" mode="tab" title="RESPONSE">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="ResponseTable" 
+            service="Response" 
+            entity="Response" 
+            title="RESPONSE"
+            keys="id"
+            columns="id;card_id;user_id;response_date;response_text;response_bool;response_range" 
+            header-actions="R;D"
+            visible-columns="id;card_id;user_id;response_date;response_text;response_bool;response_range"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="card_id" title="card_id">
+    <o-table-cell-renderer-service attr="card_id" 
+        service="CardSelection" entity="CardSelectionType" columns="id;id"
+        parent-keys="id:card_id"
+        value-column="id" keys="card_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="user_id" title="user_id">
+    <o-table-cell-renderer-service attr="user_id" 
+        service="User" entity="UserType" columns="id;name"
+        parent-keys="id:user_id"
+        value-column="name" keys="user_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #response_date attr="response_date" title="response_date" type="DATE" editable="no" required="yes" ></o-table-column>
+            
+            <o-table-column #response_text attr="response_text" title="response_text" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="response_bool" title="response_bool">
+    <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+        render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+</o-table-column>
+            
+            <o-table-column #response_range attr="response_range" title="response_range" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

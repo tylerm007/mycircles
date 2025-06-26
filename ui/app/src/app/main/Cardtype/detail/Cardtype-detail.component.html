@@ -1,0 +1,74 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="card_type" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Cardtype_form_edit" 
+        service="Cardtype" 
+        entity="Cardtype" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;U;D"
+        #oDetailForm keys="card_type" 
+        keys-sql-types="VARCHAR" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #card_type attr="card_type" label=" card_type" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="CARD-card_type">
+    <div layout-padding>
+      <o-table 
+        attr="CardTable" 
+        service="Card" 
+        entity="Card" 
+        keys="id"
+        parent-keys="card_type:card_type"
+        columns="fellowship_name;card_type;circle_text;is_active;id"  
+        horizontal-scroll="yes"
+        detail-form-route="Card" 
+        edit-form-route="Card"
+        visible-columns="fellowship_name;card_type;circle_text;is_active;id"  
+        sort-columns="fellowship_name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #fellowship_name attr="fellowship_name" title=" fellowship_name" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #card_type attr="card_type" title="card_type" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #circle_text attr="circle_text" title="circle_text" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column attr="is_active" title="is_active">
+    <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+        render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+</o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

@@ -1,0 +1,54 @@
+<o-form #CardTagForm attr="CardTag_form_insert" service="CardTag" entity="CardTag"
+keys="id" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" >
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <o-integer-input #id attr="id" label=" id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+        <o-list-picker 
+        attr="card_id"
+        service="Card" 
+        entity="CardType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;card_id;fellowship_name" 
+        title="card_id"
+        visible-columns="id;fellowship_name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-list-picker 
+        attr="tag_id"
+        service="Tag" 
+        entity="TagType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;tag_id;tag_name" 
+        title="tag_id"
+        visible-columns="id;tag_name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

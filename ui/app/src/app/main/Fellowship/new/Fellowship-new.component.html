@@ -1,0 +1,20 @@
+<o-form #FellowshipForm attr="Fellowship_form_insert" service="Fellowship" entity="Fellowship"
+keys="name" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" >
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <o-text-input #name attr="name" label=" name" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-text-input #full_name attr="full_name" label="full_name" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-text-input #website attr="website" label="website" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

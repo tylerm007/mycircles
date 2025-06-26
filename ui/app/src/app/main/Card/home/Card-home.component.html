@@ -1,0 +1,42 @@
+<o-form-layout-manager attr="Card" mode="tab" title="CARD">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="CardTable" 
+            service="Card" 
+            entity="Card" 
+            title="CARD"
+            keys="id"
+            columns="fellowship_name;card_type;circle_text;is_active;id" 
+            header-actions="R;D"
+            visible-columns="fellowship_name;card_type;circle_text;is_active;id"  
+            sort-columns="fellowship_name" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #fellowship_name attr="fellowship_name" title=" fellowship_name" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #card_type attr="card_type" title="card_type" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #circle_text attr="circle_text" title="circle_text" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column attr="is_active" title="is_active">
+    <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+        render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+</o-table-column>
+            
+            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

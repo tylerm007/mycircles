@@ -1,0 +1,24 @@
+<o-form #DailyReponseCountForm attr="DailyReponseCount_form_insert" service="DailyReponseCount" entity="DailyReponseCount"
+keys="user_id;response_date" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" >
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <o-integer-input #user_id attr="user_id" label=" user_id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+        <o-date-input #response_date attr="response_date" value-type="string" label="response_date" enabled="yes" required="yes" format="YYYY-MM-DD" fxFlex="20%" class="form-field"></o-date-input>
+      
+        <o-integer-input #count_inner attr="count_inner" label="count_inner" type="integer" editable="no" required="no" ></o-integer-input>
+      
+        <o-integer-input #count_middle attr="count_middle" label="count_middle" type="integer" editable="no" required="no" ></o-integer-input>
+      
+        <o-integer-input #count_outer attr="count_outer" label="count_outer" type="integer" editable="no" required="no" ></o-integer-input>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

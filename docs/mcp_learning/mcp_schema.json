@@ -1,0 +1,230 @@
+{
+    "tool_type": "json-api",
+    "schema_version": "1.0",
+    "base_url": "http://localhost:5656/api",
+    "description": "API Logic Project: mycircles",
+    "resources": [
+        {
+            "name": "Card",
+            "path": "/Card",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "id",
+                "fellowship_name",
+                "circle_text",
+                "card_type",
+                "is_active"
+            ],
+            "filterable": [
+                "id",
+                "fellowship_name",
+                "circle_text",
+                "card_type",
+                "is_active"
+            ]
+        },
+        {
+            "name": "Cardtype",
+            "path": "/Cardtype",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "card_type"
+            ],
+            "filterable": [
+                "card_type"
+            ]
+        },
+        {
+            "name": "Fellowship",
+            "path": "/Fellowship",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "name",
+                "full_name",
+                "website"
+            ],
+            "filterable": [
+                "name",
+                "full_name",
+                "website"
+            ]
+        },
+        {
+            "name": "CardSelection",
+            "path": "/CardSelection",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "id",
+                "user_id",
+                "card_id",
+                "circle_type",
+                "selected_date"
+            ],
+            "filterable": [
+                "id",
+                "user_id",
+                "card_id",
+                "circle_type",
+                "selected_date"
+            ]
+        },
+        {
+            "name": "Circle",
+            "path": "/Circle",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "circle_type",
+                "decription"
+            ],
+            "filterable": [
+                "circle_type",
+                "decription"
+            ]
+        },
+        {
+            "name": "User",
+            "path": "/User",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "id",
+                "name",
+                "password_hash",
+                "password_salt",
+                "fellowship_name",
+                "email",
+                "cell"
+            ],
+            "filterable": [
+                "id",
+                "name",
+                "password_hash",
+                "password_salt",
+                "fellowship_name",
+                "email",
+                "cell"
+            ]
+        },
+        {
+            "name": "CardTag",
+            "path": "/CardTag",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "id",
+                "card_id",
+                "tag_id"
+            ],
+            "filterable": [
+                "id",
+                "card_id",
+                "tag_id"
+            ]
+        },
+        {
+            "name": "Tag",
+            "path": "/Tag",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "id",
+                "tag_name",
+                "fellowship_name"
+            ],
+            "filterable": [
+                "id",
+                "tag_name",
+                "fellowship_name"
+            ]
+        },
+        {
+            "name": "DailyReponseCount",
+            "path": "/DailyReponseCount",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "user_id",
+                "response_date",
+                "count_inner",
+                "count_middle",
+                "count_outer"
+            ],
+            "filterable": [
+                "user_id",
+                "response_date",
+                "count_inner",
+                "count_middle",
+                "count_outer"
+            ]
+        },
+        {
+            "name": "Response",
+            "path": "/Response",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "id",
+                "user_id",
+                "card_id",
+                "response_date",
+                "response_text",
+                "response_bool",
+                "response_range"
+            ],
+            "filterable": [
+                "id",
+                "user_id",
+                "card_id",
+                "response_date",
+                "response_text",
+                "response_bool",
+                "response_range"
+            ]
+        }
+    ]
+}
