@@ -23,14 +23,22 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         user = request.args.get('user')
         app_logger.info(f'{user}')
         return jsonify({"result": f'hello from new_service! from {user}'})
-    
+    @app.route('/update_cards', methods=['POST'])
+    def update_cards():
+        ''''
+        Illustrates: save selection
+            'cards' =[{'id': 4, 'name': 'Go for a walk', 'tags': [...]}]
+            'red' = [{'id': 3, 'name': 'Attend an SAA meeting', 'tags': [...]}]
+            'orange' = []
+            'green' = []
+        '''
+        data = request.json
+        app_logger.info(f'Updating cards with data: {data}')
+        return jsonify({"status": "success", "message": "Cards updated successfully"}), 200
     @app.route('/get_cards', methods=['GET'])
     def get_cards():
         """
         Illustrates:    
-
-        
-           
         # This is a placeholder for the actual logic to retrieve cards.
         # In a real application, you would query your database or data source here.
         cards = [
@@ -50,6 +58,12 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             {"id": 14, "name": "Ace of Spades", "tags": ["spade", "ace", "black"]},
             {"id": 15, "name": "Joker", "tags": ["joker", "wild", "special"]}
         ]
+        
+            'cards' =[{'id': 4, 'name': 'Go for a walk', 'tags': [...]}]
+            'red' = [{'id': 3, 'name': 'Attend an SAA meeting', 'tags': [...]}]
+            'orange' = []
+            'green' = []
+            return {"cards": cards, "red": [], "orange": [], "green": []}
         """   
         from database import models  # Import your models here
         cards = session.query(models.Card).all()
@@ -59,4 +73,4 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             card.tags = [tag.tag_name for tag in tags if tag.id in [ct.tag_id for ct in card_tags if ct.card_id == card.id]]
         # Convert to a list of dictionaries for JSON serialization
         cards = [{"id": card.id, "name": card.circle_text, "tags": card.tags} for card in cards]
-        return jsonify(cards)
+        return jsonify({"cards": cards, "red": [], "orange": [], "green": []})

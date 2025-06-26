@@ -9,9 +9,16 @@ const CardDeckManager = () => {
     const fetchCards = async () => {
       try {
         const response = await fetch('http://localhost:5656/get_cards');
-        const cards = await response.json();
-        setInitialDeck(cards);
-        setDeck(cards); // Initialize deck with fetched cards
+        const resp = await response.json();
+        console.log('Fetched cards:', resp);
+        if (response.ok) {
+          const cards = resp.cards.map(card => ({
+            ...card,
+            tags: card.tags || [] // Ensure tags is always an array
+          }));
+          setInitialDeck(cards);
+          setDeck(cards); // Initialize deck with fetched cards
+        }
       } catch (error) {
         console.error('Error fetching cards:', error);
         // Fallback to empty array or default cards
@@ -28,7 +35,32 @@ const CardDeckManager = () => {
   const [orangeBox, setOrangeBox] = useState([]);
   const [greenBox, setGreenBox] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-
+  const save = async () => {
+  try {
+    const cardData = {
+      cards: deck,
+      red: redBox,
+      orange: orangeBox,
+      green: greenBox
+    };
+    
+    const response = await fetch('http://localhost:5656/update_cards', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cardData),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to save cards');
+    }
+    
+    console.log('Cards saved successfully');
+  } catch (error) {
+    console.error('Error saving cards:', error);
+  }
+  };
   // Filter cards based on search term
   const filteredDeck = deck.filter(card =>
     card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -132,18 +164,26 @@ const CardDeckManager = () => {
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Three Circles Manager</h1>
 
       {/* Search Bar */}
-      <div className="mb-6 max-w-md mx-auto">
-        <input
-          type="text"
-          placeholder="Search cards by name or tags..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+        <div className="mb-6 max-w-md mx-auto flex gap-2">
+          <input
+            type="text"
+            placeholder="Search cards by name or tags..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          
+          <button
+            onClick={save}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+          >
+            Save
+          </button>
 
-      <div className="flex gap-6 h-screen max-h-screen">
-        {/* Deck Section */}
+        </div>
+
+        <div className="flex gap-6 h-screen max-h-screen">
+          {/* Deck Section */}
         <div className="w-1/2 h-full flex flex-col">
           <div
             onDragOver={handleDragOver}
