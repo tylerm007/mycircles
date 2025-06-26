@@ -16,8 +16,23 @@ const CardDeckManager = () => {
             ...card,
             tags: card.tags || [] // Ensure tags is always an array
           }));
+          const red = resp.red.map(red => ({
+            ...red,
+            tags: red.tags || [] // Ensure tags is always an array
+          }));
+          const green = resp.green.map(green => ({
+            ...green,
+            tags: green.tags || [] // Ensure tags is always an array
+          }));
+            const orange = resp.orange.map(orange => ({
+            ...orange,
+            tags: orange.tags || [] // Ensure tags is always an array
+          }));
           setInitialDeck(cards);
           setDeck(cards); // Initialize deck with fetched cards
+          setRedBox(red); // Initialize red box with fetched cards
+          setOrangeBox(orange); // Initialize orange box as empty   
+          setGreenBox(green); // Initialize green box as empty
         }
       } catch (error) {
         console.error('Error fetching cards:', error);
@@ -164,26 +179,25 @@ const CardDeckManager = () => {
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Three Circles Manager</h1>
 
       {/* Search Bar */}
-        <div className="mb-6 max-w-md mx-auto flex gap-2">
-          <input
-            type="text"
-            placeholder="Search cards by name or tags..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          
-          <button
-            onClick={save}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
-          >
-            Save
-          </button>
+      <div className="mb-6 flex justify-between items-center">
+        <input
+          type="text"
+          placeholder="Search cards by name or tags..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        
+        <button
+          onClick={save}
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+        >
+          Save
+        </button>
+      </div>
 
-        </div>
-
-        <div className="flex gap-6 h-screen max-h-screen">
-          {/* Deck Section */}
+      <div className="flex gap-6 h-screen max-h-screen">
+        {/* Deck Section */}
         <div className="w-1/2 h-full flex flex-col">
           <div
             onDragOver={handleDragOver}

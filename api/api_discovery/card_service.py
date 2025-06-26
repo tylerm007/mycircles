@@ -1,6 +1,6 @@
 from flask import request, jsonify
 import logging
-
+from database import models  # Import your models here
 import safrs
 app_logger = logging.getLogger(__name__)
 
@@ -31,10 +31,29 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             'red' = [{'id': 3, 'name': 'Attend an SAA meeting', 'tags': [...]}]
             'orange' = []
             'green' = []
+            
+            truncate models.CardSelection
+            insert into models.CardSelection (user_id, card_id, circle_type, selected_date)
+            values (1, 4, 'inner', '2023-10-01')
+            values (1, 3, 'middle', '2023-10-01')
+            values (1, 4, 'outer', '2023-10-01')
         '''
         data = request.json
         app_logger.info(f'Updating cards with data: {data}')
+        inner = data.get('red', [])
+        middle = data.get('orange', [])
+        outer = data.get('green', [])
+        session.query(models.CardSelection).filter_by(user_id=1).delete()
+        for card in inner:
+            session.add(models.CardSelection(user_id=1, card_id=card['id'], circle_type='Inner'))
+        for card in middle:
+            session.add(models.CardSelection(user_id=1, card_id=card['id'], circle_type='Middle'))
+        for card in outer:
+            session.add(models.CardSelection(user_id=1, card_id=card['id'], circle_type='Outer'))
+        session.commit()
+        app_logger.info('Cards updated successfully')
         return jsonify({"status": "success", "message": "Cards updated successfully"}), 200
+    
     @app.route('/get_cards', methods=['GET'])
     def get_cards():
         """
@@ -65,12 +84,30 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             'green' = []
             return {"cards": cards, "red": [], "orange": [], "green": []}
         """   
-        from database import models  # Import your models here
+    
         cards = session.query(models.Card).all()
         tags = session.query(models.Tag).all()
         card_tags = session.query(models.CardTag).all()
         for card in cards:
             card.tags = [tag.tag_name for tag in tags if tag.id in [ct.tag_id for ct in card_tags if ct.card_id == card.id]]
         # Convert to a list of dictionaries for JSON serialization
-        cards = [{"id": card.id, "name": card.circle_text, "tags": card.tags} for card in cards]
-        return jsonify({"cards": cards, "red": [], "orange": [], "green": []})
+        # Get selected card IDs for each circle type
+        card_selections = session.query(models.CardSelection).filter_by(user_id=1).all()
+        selected_inner_ids = {cs.card_id for cs in card_selections if cs.circle_type == 'Inner'}
+        selected_middle_ids = {cs.card_id for cs in card_selections if cs.circle_type == 'Middle'}
+        selected_outer_ids = {cs.card_id for cs in card_selections if cs.circle_type == 'Outer'}
+        
+        # Get all selected card IDs
+        all_selected_ids = selected_inner_ids | selected_middle_ids | selected_outer_ids
+        
+        # Filter out selected cards from the main cards list
+        available_cards = [{"id": card.id, "name": card.circle_text, "tags": card.tags} for card in cards if card.id not in all_selected_ids]
+        
+        # Create lists of selected cards for each circle
+        red = [{"id": card.id, "name": card.circle_text, "tags": card.tags} for card in cards if card.id in selected_inner_ids]
+        orange = [{"id": card.id, "name": card.circle_text, "tags": card.tags} for card in cards if card.id in selected_middle_ids]
+        green = [{"id": card.id, "name": card.circle_text, "tags": card.tags} for card in cards if card.id in selected_outer_ids]
+        
+        cards = available_cards
+        # For now, returning empty lists for red, orange, and green
+        return jsonify({"cards": cards, "red": red, "orange": orange, "green": green})
