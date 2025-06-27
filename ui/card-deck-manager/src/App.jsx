@@ -1,14 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 const CardDeckManager = () => {
+  // Get authentication state and functions
+  const { authenticated, loading, login, logout, user, getToken } = useAuth();
+
   // Initial deck of cards with tags
   const [initialDeck, setInitialDeck] = useState([]);
 
   // Fetch cards from API on component mount
   useEffect(() => {
+    // Only fetch cards if user is authenticated
+    if (!authenticated) return;
+
     const fetchCards = async () => {
       try {
-        const response = await fetch('http://localhost:5656/get_cards');
+        const token = getToken();
+        const response = await fetch('http://localhost:5656/get_cards', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
         const resp = await response.json();
         console.log('Fetched cards:', resp);
         if (response.ok) {
@@ -43,13 +56,43 @@ const CardDeckManager = () => {
     };
 
     fetchCards();
-  }, []);
+  }, [authenticated, getToken]);
 
   const [deck, setDeck] = useState(initialDeck);
   const [redBox, setRedBox] = useState([]);
   const [orangeBox, setOrangeBox] = useState([]);
   const [greenBox, setGreenBox] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Show loading spinner while Keycloak initializes
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login screen if not authenticated
+  if (!authenticated) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="bg-white p-8 rounded-lg shadow-md text-center max-w-md w-full mx-4">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">Three Circles Manager</h1>
+          <p className="text-gray-600 mb-6">Please log in to access your card deck manager.</p>
+          <button
+            onClick={login}
+            className="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+          >
+            Login with Keycloak
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const print = () => {
     const printWindow = window.open('', '_blank');
@@ -113,6 +156,7 @@ const CardDeckManager = () => {
       console.error('Failed to open print window');
     }
   };        
+
   const reset = async () => {
     setDeck([]);
     setRedBox([]);
@@ -120,15 +164,16 @@ const CardDeckManager = () => {
     setGreenBox([]);
     setSearchTerm('');
     try{
-      const response = await fetch('http://localhost:5656/reset_cards');
+      const token = getToken();
+      const response = await fetch('http://localhost:5656/reset_cards', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
       const resp = await response.json();
       console.log('Reset cards:', resp);
       if (response.ok) {
-        // Call fetchCards again to reload the cards after reset
-        // Since fetchCards is defined inside useEffect, you can't call it directly here.
-        // Instead, you can trigger a reload by calling window.location.reload(), which you already do.
-        // If you want to avoid a full reload, move fetchCards outside useEffect and call it here:
-        // await fetchCards();
         console.log('Cards reset successfully');
         window.location.reload();
       }
@@ -146,10 +191,12 @@ const CardDeckManager = () => {
       green: greenBox
     };
     
+    const token = getToken();
     const response = await fetch('http://localhost:5656/update_cards', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(cardData),
     });
@@ -163,6 +210,7 @@ const CardDeckManager = () => {
     console.error('Error saving cards:', error);
   }
   };
+
   // Filter cards based on search term
   const filteredDeck = deck.filter(card =>
     card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -263,7 +311,21 @@ const CardDeckManager = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Three Circles Manager</h1>
+      {/* Header with user info and logout */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">Three Circles Manager</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-gray-600">
+            Welcome, {user?.name || user?.username || 'User'}!
+          </span>
+          <button
+            onClick={logout}
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
 
       {/* Search Bar */}
       <div className="mb-6 flex justify-between items-center">
@@ -367,4 +429,13 @@ const CardDeckManager = () => {
   );
 };
 
-export default CardDeckManager;
+// Main App component with AuthProvider wrapper
+const App = () => {
+  return (
+    <AuthProvider>
+      <CardDeckManager />
+    </AuthProvider>
+  );
+};
+
+export default App;
