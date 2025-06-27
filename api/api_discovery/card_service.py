@@ -2,6 +2,8 @@ from flask import request, jsonify
 import logging
 from database import models  # Import your models here
 import safrs
+import csv
+import os
 app_logger = logging.getLogger(__name__)
 
 db = safrs.DB 
@@ -111,3 +113,49 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         cards = available_cards
         # For now, returning empty lists for red, orange, and green
         return jsonify({"cards": cards, "red": red, "orange": orange, "green": green})
+    
+    
+    @app.route('/load_cards', methods=['GET'])
+    def load_cards():
+        """ 
+        Illustrates:    
+        Load initial deck of cards from named csv file
+        """
+        file_name = request.args.get ("file_name", "circles.csv")
+        app_logger.info(f'Loading cards with data: {file_name}')
+        initial_deck = []
+        try:
+            # Construct the full file path (assuming CSV files are in a 'data' directory)
+            file_path = os.path.join(project_dir,  file_name)
+            
+            # Check if file exists
+            if not os.path.exists(file_path):
+                app_logger.error(f'File not found: {file_path}')
+                return jsonify({"error": f"File {file_name} not found"}), 404
+            
+            
+            with open(file_path, 'r', newline='', encoding='utf-8') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row_num, row in enumerate(reader, start=1):
+                    try:
+                        # Parse tags if they exist, assuming comma-separated values in a 'tags' column
+                        tags = row.get('Tags', '').split(',') if row.get('Tags') else []
+                        tags = [tag.strip() for tag in tags if tag.strip()]  # Clean up whitespace
+                        
+                        card = {
+                            "id": int(row.get('id', row_num)),
+                            "name": row.get('Name', '').strip(),
+                            "tags": tags
+                        }
+                        initial_deck.append(card)
+                    except (ValueError, KeyError) as e:
+                        app_logger.warning(f'Error parsing row {row_num}: {e}')
+                        continue
+            
+            app_logger.info(f'Successfully loaded {len(initial_deck)} cards from {file_name}')
+
+        except Exception as e:
+            app_logger.error(f'Error loading cards from {file_name}: {e}')
+            return jsonify({"error": f"Failed to load cards: {str(e)}"}), 500
+        
+        return jsonify({"initialDeck": initial_deck})

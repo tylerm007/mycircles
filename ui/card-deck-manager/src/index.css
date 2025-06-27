@@ -92,21 +92,21 @@ body {
 
 /* Red box */
 .drop-zone-red {
-  background-color: #f47b7b;
+  background-color: #f25656;
   min-height: 10rem;
   max-height: 16rem;
 }
 
 /* Orange box */
 .drop-zone-orange {
-  background-color: #f6a94c;
+  background-color: #ecf464;
   min-height: 10rem;
   max-height: 16rem;
 }
 
 /* Green box */
 .drop-zone-green {
-  background-color: #85efa5;
+  background-color: #1dc550;
   min-height: 10rem;
   max-height: 16rem;
 }
