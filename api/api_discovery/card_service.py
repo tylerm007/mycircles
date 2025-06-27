@@ -121,6 +121,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         Illustrates:    
         Load initial deck of cards from named csv file
         curl http://localhost:5656/load_cards?file_name=outer_circles.csv
+        curl http://localhost:5656/load_cards?file_name=inner_circles.csv
         """
         file_name = request.args.get ("file_name", "circles.csv")
         app_logger.info(f'Loading cards with data: {file_name}')
@@ -189,7 +190,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 app_logger.info(f'Card already exists: {card["name"]}') 
         
         session.query(models.CardSelection).filter(models.CardSelection.user_id == 1).delete()
-        session.query(models.CardTag).delete()
+        #session.query(models.CardTag).delete()
         all_cards = session.query(models.Card).all()
         all_tags = session.query(models.Tag).all()
         for card in all_cards:

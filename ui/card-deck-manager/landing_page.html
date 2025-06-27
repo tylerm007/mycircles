@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Circles Recovery - Transform Your Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="70" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="80" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 3rem;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .circles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: slideInUp 1s ease-out 0.4s both;
+        }
+
+        .circle-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .circle-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .circle-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .circle-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .inner-circle { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
+        .middle-circle { background: linear-gradient(135deg, #4ecdc4, #2ed573); }
+        .outer-circle { background: linear-gradient(135deg, #45b7d1, #3742fa); }
+
+        .circle-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .circle-description {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem 3rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            animation: floatRandom 15s ease-in-out infinite;
+        }
+
+        .floating-circle:nth-child(1) { width: 20px; height: 20px; top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-circle:nth-child(2) { width: 15px; height: 15px; top: 60%; right: 20%; animation-delay: 5s; }
+        .floating-circle:nth-child(3) { width: 25px; height: 25px; bottom: 30%; left: 15%; animation-delay: 10s; }
+
+        @keyframes floatRandom {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(0px) translateX(-10px); }
+            75% { transform: translateY(10px) translateX(5px); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .subtitle { font-size: 1.2rem; }
+            .circles-container { 
+                grid-template-columns: 1fr; 
+                gap: 2rem;
+                margin: 2rem;
+                padding: 3rem 1.5rem;
+            }
+            .circle-card { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Three Circles</h1>
+            <p class="subtitle">Recovery Through Understanding & Structure</p>
+        </div>
+    </section>
+
+    <div class="circles-container">
+        <div class="circle-card">
+            <div class="circle-icon inner-circle">
+                <span>●</span>
+            </div>
+            <h2 class="circle-title">Inner Circle</h2>
+            <p class="circle-description">
+                The Inner Circle represents your core destructive behaviors and addictive patterns that you're committed to avoiding completely. These are the "bottom line" behaviors that create the most significant harm in your life and relationships.
+            </p>
+            <p class="circle-description">
+                By clearly defining what belongs in your Inner Circle, you create firm boundaries around the most dangerous behaviors. This circle serves as your ultimate accountability measure - crossing into these behaviors signals immediate need for support and intervention.
+            </p>
+        </div>
+
+        <div class="circle-card">
+            <div class="circle-icon middle-circle">
+                <span>◐</span>
+            </div>
+            <h2 class="circle-title">Middle Circle</h2>
+            <p class="circle-description">
+                The Middle Circle contains behaviors that aren't immediately destructive but can lead you toward your Inner Circle. These are warning signs, risky situations, and behaviors that compromise your recovery goals without being bottom-line violations.
+            </p>
+            <p class="circle-description">
+                Middle Circle behaviors require careful attention and mindful decision-making. While not forbidden, they serve as important indicators that you may be moving in a dangerous direction. Recognizing these patterns helps you course-correct before reaching critical moments.
+            </p>
+        </div>
+
+        <div class="circle-card">
+            <div class="circle-icon outer-circle">
+                <span>○</span>
+            </div>
+            <h2 class="circle-title">Outer Circle</h2>
+            <p class="circle-description">
+                The Outer Circle encompasses all the positive, healthy behaviors and activities that support your recovery and overall wellbeing. These are the constructive choices that move you toward your goals and values.
+            </p>
+            <p class="circle-description">
+                Outer Circle behaviors include healthy relationships, meaningful work, physical wellness, spiritual practices, and activities that align with your authentic self. The more time and energy you invest in Outer Circle behaviors, the stronger your recovery foundation becomes.
+            </p>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <a href="http://localhost:5173/" class="cta-button" target="_blank" rel="noopener noreferrer">
+            Launch Three Circle App
+        </a>
+    </section>
+
+    <script>
+        // Add smooth scrolling and enhanced interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on scroll
+            const cards = document.querySelectorAll('.circle-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'slideInUp 0.6s ease-out forwards';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => observer.observe(card));
+
+            // Add dynamic background particles
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'floating-circle';
+                particle.style.cssText = `
+                    position: fixed;
+                    width: ${Math.random() * 10 + 5}px;
+                    height: ${Math.random() * 10 + 5}px;
+                    background: rgba(255,255,255,0.1);
+                    border-radius: 50%;
+                    top: ${Math.random() * 100}vh;
+                    left: ${Math.random() * 100}vw;
+                    pointer-events: none;
+                    animation: floatRandom ${Math.random() * 10 + 10}s ease-in-out infinite;
+                    z-index: 1;
+                `;
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 15000);
+            }
+
+            // Create particles periodically
+            setInterval(createParticle, 3000);
+        });
+    </script>
+</body>
+</html>
