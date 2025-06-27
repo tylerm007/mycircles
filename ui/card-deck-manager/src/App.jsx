@@ -50,6 +50,93 @@ const CardDeckManager = () => {
   const [orangeBox, setOrangeBox] = useState([]);
   const [greenBox, setGreenBox] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const print = () => {
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Print Cards</title>
+            <style>
+              body { font-family: Arial, sans-serif; }
+              .card { border: 1px solid #ccc; padding: 10px; margin: 10px; }
+              .card h2 { margin: 0 0 10px; }
+              .card p { margin: 0; }
+            </style>
+          </head>
+          <body>
+            <h1>Cards</h1>
+            <div>
+              ${deck.map(card => `
+                <div class="card">
+                  <h2>${card.name}</h2>
+                  <p>Tags: ${card.tags.join(', ')}</p>
+                </div>
+              `).join('')}
+            </div>
+            <h1>Inner Circle</h1>
+            <div>
+              ${redBox.map(card => `
+                <div class="card">
+                  <h2>${card.name}</h2>
+                  <p>Tags: ${card.tags.join(', ')}</p>
+                </div>
+              `).join('')}
+            </div>
+            <h1>Middle Circle</h1>
+            <div>
+              ${orangeBox.map(card => `
+                <div class="card">
+                  <h2>${card.name}</h2>
+                  <p>Tags: ${card.tags.join(', ')}</p>
+                </div>
+              `).join('')}
+            </div>
+            <h1>Outer Circle</h1>
+            <div>
+              ${greenBox.map(card => `
+                <div class="card">
+                  <h2>${card.name}</h2>
+                  <p>Tags: ${card.tags.join(', ')}</p> 
+                </div>
+              `).join('')}
+            </div>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+      printWindow.close();
+    } else {
+      console.error('Failed to open print window');
+    }
+  };        
+  const reset = async () => {
+    setDeck([]);
+    setRedBox([]);
+    setOrangeBox([]);
+    setGreenBox([]);
+    setSearchTerm('');
+    try{
+      const response = await fetch('http://localhost:5656/reset_cards');
+      const resp = await response.json();
+      console.log('Reset cards:', resp);
+      if (response.ok) {
+        // Call fetchCards again to reload the cards after reset
+        // Since fetchCards is defined inside useEffect, you can't call it directly here.
+        // Instead, you can trigger a reload by calling window.location.reload(), which you already do.
+        // If you want to avoid a full reload, move fetchCards outside useEffect and call it here:
+        // await fetchCards();
+        console.log('Cards reset successfully');
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error resetting cards:', error);
+    }
+  };
+
   const save = async () => {
   try {
     const cardData = {
@@ -187,17 +274,30 @@ const CardDeckManager = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        
-        <button
-          onClick={save}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
-        >
-          Save
-        </button>
+        <div className="flex gap-2 ml-auto">
+          <button
+            onClick={reset}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+          >
+            Reset
+          </button>
+          <button
+            onClick={save}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+          >
+            Save
+          </button>
+          <button
+            onClick={print}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+          >
+            Print
+          </button>
+        </div>
       </div>
 
       <div className="flex gap-6 h-screen max-h-screen">
-        {/* Deck Section */}
+        {/* Deck Section */}}
         <div className="w-1/2 h-full flex flex-col">
           <div
             onDragOver={handleDragOver}

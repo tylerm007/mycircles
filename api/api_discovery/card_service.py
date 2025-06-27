@@ -114,7 +114,13 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         # For now, returning empty lists for red, orange, and green
         return jsonify({"cards": cards, "red": red, "orange": orange, "green": green})
     
-    
+    @app.route('/reset_cards', methods=['GET'])
+    def reset_cards():
+        session.query(models.CardSelection).filter_by(user_id=1).delete()
+        session.commit()
+        app_logger.info('Card selections reset successfully')
+        return jsonify({"status": "success", "message": "Card selections reset successfully"}), 200
+        
     @app.route('/load_cards', methods=['GET'])
     def load_cards():
         """ 

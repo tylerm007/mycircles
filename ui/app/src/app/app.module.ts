@@ -9,16 +9,32 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CONFIG } from './app.config';
 
+import { O_AUTH_SERVICE } from 'ontimize-web-ngx';
+import { KeycloakOptions, O_KEYCLOAK_OPTIONS, OKeycloakAuthService, OntimizeKeycloakModule } from 'ontimize-web-ngx-keycloak';
+
 // Standard providers...
 // Defining custom providers (if needed)...
 export const customProviders: any = [
 ];
+
+const keycloakOptions: KeycloakOptions = {
+  config: {
+    url: "http://localhost:8080",
+    realm: "os.getenv(KEYCLOAK_REALM,'kcals')",
+    clientId: "os.getenv(KEYCLOAK_CLIENT_ID,'alsclient')"
+  },
+  initOptions: {
+    onLoad: 'login-required'
+  }
+};
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     OntimizeWebModule,
+    
+    OntimizeKeycloakModule,
     
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
@@ -32,6 +48,9 @@ export const customProviders: any = [
   providers: [
     { provide: APP_CONFIG, useValue: CONFIG },
     ONTIMIZE_PROVIDERS,
+    
+    { provide: O_AUTH_SERVICE, useValue: OKeycloakAuthService },
+    { provide: O_KEYCLOAK_OPTIONS, useValue: keycloakOptions },
     
     ...customProviders
   ]
