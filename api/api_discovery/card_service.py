@@ -120,6 +120,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         """ 
         Illustrates:    
         Load initial deck of cards from named csv file
+        curl http://localhost:5656/load_cards?file_name=outer_circles.csv
         """
         file_name = request.args.get ("file_name", "circles.csv")
         app_logger.info(f'Loading cards with data: {file_name}')
