@@ -297,7 +297,7 @@ const CardDeckManager = () => {
       </div>
 
       <div className="flex gap-6 h-screen max-h-screen">
-        {/* Deck Section */}}
+        {/* Deck Section */}
         <div className="w-1/2 h-full flex flex-col">
           <div
             onDragOver={handleDragOver}

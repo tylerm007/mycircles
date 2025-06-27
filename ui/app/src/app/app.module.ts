@@ -20,8 +20,8 @@ export const customProviders: any = [
 const keycloakOptions: KeycloakOptions = {
   config: {
     url: "http://localhost:8080",
-    realm: "os.getenv(KEYCLOAK_REALM,'kcals')",
-    clientId: "os.getenv(KEYCLOAK_CLIENT_ID,'alsclient')"
+    realm: "kcals",
+    clientId: "alsclient"
   },
   initOptions: {
     onLoad: 'login-required'

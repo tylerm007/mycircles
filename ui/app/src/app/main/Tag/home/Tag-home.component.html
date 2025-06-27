@@ -1,4 +1,4 @@
-<o-form-layout-manager attr="Tag" mode="tab" title="TAG">
+<o-form-layout-manager attr="Tag" mode="dialog" title="TAG">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table 
             attr="TagTable" 
@@ -8,7 +8,7 @@
             keys="id"
             columns="tag_name;fellowship_name;id" 
             header-actions="R;D"
-            visible-columns="tag_name;fellowship_name;id"  
+            visible-columns="tag_name;fellowship_name"  
             sort-columns="tag_name" 
             query-rows="20" 
             quick-filter="yes"
@@ -26,8 +26,7 @@
             
             <o-table-column #fellowship_name attr="fellowship_name" title="fellowship_name" editable="no" required="yes" content-align="left"></o-table-column>
             
-            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
-            
+             
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>

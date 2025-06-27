@@ -56,7 +56,7 @@
       
       <o-list-picker 
         attr="user_id"
-        service="User" 
+        service="Users" 
         entity="UserType"
         fxFlex="30" 
         query-on-init="no" 
@@ -121,7 +121,7 @@
         
           <o-table-column attr="user_id" title="user_id">
     <o-table-cell-renderer-service attr="user_id" 
-        service="User" entity="UserType" columns="id;name"
+        service="Users" entity="UserType" columns="id;name"
         parent-keys="id:user_id"
         value-column="name" keys="user_id"
         visible-columns="name" separator=" - " width="680px">

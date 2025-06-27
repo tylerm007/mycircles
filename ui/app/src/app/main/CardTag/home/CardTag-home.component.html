@@ -1,47 +1,28 @@
-<o-form-layout-manager attr="CardTag" mode="tab" title="CARDTAG">
+<o-form-layout-manager attr="CardTag" mode="dialog" title="CARDTAG">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
-        <o-table 
-            attr="CardTagTable" 
-            service="CardTag" 
-            entity="CardTag" 
-            title="CARDTAG"
-            keys="id"
-            columns="id;card_id;tag_id" 
-            header-actions="R;D"
-            visible-columns="id;card_id;tag_id"  
-            sort-columns="id" 
-            query-rows="20" 
-            quick-filter="yes"
-            row-height="medium" 
-            select-all-checkbox="true" 
-            pageable="yes"  
-            auto-adjust="true" 
-            virtual-scroll="yes" 
-            edition-mode="dblclick"
-            horizontal-scroll="yes"
-            show-title="yes"
+        <o-table attr="CardTagTable" service="CardTag" entity="CardTag" title="CARDTAG" keys="id"
+            columns="id;card_id;tag_id" header-actions="R;D" visible-columns="id;card_id;tag_id" sort-columns="id"
+            query-rows="20" quick-filter="yes" row-height="medium" select-all-checkbox="true" pageable="yes"
+            auto-adjust="true" virtual-scroll="yes" edition-mode="dblclick" horizontal-scroll="yes" show-title="yes"
             export-button="yes">
-            
-            <o-table-column #id attr="id" title=" id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
-            
-            <o-table-column attr="card_id" title="card_id">
-    <o-table-cell-renderer-service attr="card_id" 
-        service="Card" entity="CardType" columns="id;fellowship_name"
-        parent-keys="id:card_id"
-        value-column="fellowship_name" keys="card_id"
-        visible-columns="fellowship_name" separator=" - " width="680px">
-    </o-table-cell-renderer-service>
-</o-table-column>
-            
+
+            <o-table-column #id attr="id" title=" id" type="integer" editable="no" required="no"
+                content-align="center"></o-table-column>
+
+            <o-table-column attr="card_id" title="text">
+                <o-table-cell-renderer-service attr="card_id" service="Card" entity="CardType"
+                    columns="id;fellowship_name;circle_text" parent-keys="id:card_id" value-column="circle_text" keys="card_id"
+                    visible-columns="circle_text" separator=" - " width="680px">
+                </o-table-cell-renderer-service>
+            </o-table-column>
+
             <o-table-column attr="tag_id" title="tag_id">
-    <o-table-cell-renderer-service attr="tag_id" 
-        service="Tag" entity="TagType" columns="id;tag_name"
-        parent-keys="id:tag_id"
-        value-column="tag_name" keys="tag_id"
-        visible-columns="tag_name" separator=" - " width="680px">
-    </o-table-cell-renderer-service>
-</o-table-column>
-            
+                <o-table-cell-renderer-service attr="tag_id" service="Tag" entity="TagType" columns="id;tag_name"
+                    parent-keys="id:tag_id" value-column="tag_name" keys="tag_id" visible-columns="tag_name"
+                    separator=" - " width="680px">
+                </o-table-cell-renderer-service>
+            </o-table-column>
+
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>

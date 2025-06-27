@@ -1,4 +1,6 @@
-<o-form-layout-manager attr="Card" mode="tab" title="CARD">
+<o-form-layout-manager attr="Card" mode="dialog" title="CARD">
+     <o-form-layout-dialog-options width="900px" height="750px"
+            disable-close="false" ></o-form-layout-dialog-options>
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table 
             attr="CardTable" 
@@ -8,7 +10,7 @@
             keys="id"
             columns="fellowship_name;card_type;circle_text;is_active;id" 
             header-actions="R;D"
-            visible-columns="fellowship_name;card_type;circle_text;is_active;id"  
+            visible-columns="fellowship_name;circle_text;is_active"  
             sort-columns="fellowship_name" 
             query-rows="20" 
             quick-filter="yes"

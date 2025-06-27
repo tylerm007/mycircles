@@ -1,4 +1,6 @@
-<o-form-layout-manager attr="Fellowship" mode="tab" title="FELLOWSHIP">
+<o-form-layout-manager attr="Fellowship" mode="dialog" title="Fellowship">
+    <o-form-layout-dialog-options width="800px" height="750px"
+            disable-close="false" ></o-form-layout-dialog-options>
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table 
             attr="FellowshipTable" 
@@ -10,7 +12,7 @@
             header-actions="R;D"
             visible-columns="name;full_name;website"  
             sort-columns="name" 
-            query-rows="20" 
+            query-rows="100" 
             quick-filter="yes"
             row-height="medium" 
             select-all-checkbox="true" 

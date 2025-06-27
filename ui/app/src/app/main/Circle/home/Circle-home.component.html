@@ -1,13 +1,15 @@
-<o-form-layout-manager attr="Circle" mode="tab" title="CIRCLE">
+<o-form-layout-manager attr="Circle" mode="dialog" title="CIRCLE">
+    <o-form-layout-dialog-options width="800px" height="750px"
+            disable-close="false" ></o-form-layout-dialog-options>
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table 
             attr="CircleTable" 
             service="Circle" 
             entity="Circle" 
-            title="CIRCLE"
+            title="Circle"
             keys="circle_type"
             columns="circle_type;decription" 
-            header-actions="R;D"
+            header-actions="R"
             visible-columns="circle_type;decription"  
             sort-columns="circle_type" 
             query-rows="20" 
@@ -20,6 +22,8 @@
             edition-mode="dblclick"
             horizontal-scroll="yes"
             show-title="yes"
+            delete-button="no"
+            insert-button="no"
             export-button="yes">
             
             <o-table-column #circle_type attr="circle_type" title=" circle_type" editable="no" required="yes" content-align="left"></o-table-column>

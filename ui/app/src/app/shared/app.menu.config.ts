@@ -30,23 +30,23 @@ export const MENU_CONFIG: MenuRootItem[] = [
     
         { id: 'Card', name: 'CARD', icon: 'view_list', route: '/main/Card' }
     
-        ,{ id: 'CardSelection', name: 'CARDSELECTION', icon: 'view_list', route: '/main/CardSelection' }
+        ,{ id: 'CardSelection', name: 'CARD SELECTION', icon: 'view_list', route: '/main/CardSelection' }
     
-        ,{ id: 'CardTag', name: 'CARDTAG', icon: 'view_list', route: '/main/CardTag' }
+        ,{ id: 'CardTag', name: 'CARD TAG', icon: 'view_list', route: '/main/CardTag' }
     
-        ,{ id: 'Cardtype', name: 'CARDTYPE', icon: 'view_list', route: '/main/Cardtype' }
+        ,{ id: 'Cardtype', name: 'CARD TYPE', icon: 'view_list', route: '/main/Cardtype' }
     
         ,{ id: 'Circle', name: 'CIRCLE', icon: 'view_list', route: '/main/Circle' }
     
-        ,{ id: 'DailyReponseCount', name: 'DAILYREPONSECOUNT', icon: 'view_list', route: '/main/DailyReponseCount' }
+        //,{ id: 'DailyReponseCount', name: 'DAILYREPONSECOUNT', icon: 'view_list', route: '/main/DailyReponseCount' }
     
         ,{ id: 'Fellowship', name: 'FELLOWSHIP', icon: 'view_list', route: '/main/Fellowship' }
     
-        ,{ id: 'Response', name: 'RESPONSE', icon: 'view_list', route: '/main/Response' }
+       // ,{ id: 'Response', name: 'RESPONSE', icon: 'view_list', route: '/main/Response' }
     
         ,{ id: 'Tag', name: 'TAG', icon: 'view_list', route: '/main/Tag' }
     
-        ,{ id: 'Users', name: 'USER', icon: 'view_list', route: '/main/User' }
+        ,{ id: 'User', name: 'USER', icon: 'view_list', route: '/main/User' }
     
     ] 
 },

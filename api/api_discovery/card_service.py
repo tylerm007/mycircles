@@ -87,7 +87,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             return {"cards": cards, "red": [], "orange": [], "green": []}
         """   
     
-        cards = session.query(models.Card).all()
+        cards = session.query(models.Card).filter(models.Card.is_active == True).all()
         tags = session.query(models.Tag).all()
         card_tags = session.query(models.CardTag).all()
         for card in cards:

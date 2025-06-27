@@ -5,7 +5,7 @@
         entity="Circle" 
         fxLayout="column" 
         show-header="yes" 
-        header-actions="R;U;D"
+        header-actions="R;U"
         #oDetailForm keys="circle_type" 
         keys-sql-types="VARCHAR" 
         show-header-navigation="yes"
@@ -23,7 +23,7 @@
       
       <mat-tab-group fxFill>
         
-        <mat-tab label="CARDSELECTION-circle_type">
+        <mat-tab label="CARD SELECTION-circle_type">
     <div layout-padding>
       <o-table 
         attr="CardSelectionTable" 
@@ -44,8 +44,8 @@
         pageable="yes"  
         auto-adjust="true" 
         virtual-scroll="yes" 
-        insert-button="yes" 
-        delete-button="yes" 
+        insert-button="no" 
+        delete-button="no" 
         fixed-header="true" 
         class="vertical-padding-8"
         edition-mode="dblclick" 
@@ -66,7 +66,7 @@
         
           <o-table-column attr="user_id" title="user_id">
     <o-table-cell-renderer-service attr="user_id" 
-        service="User" entity="UserType" columns="id;name"
+        service="Users" entity="UserType" columns="id;name"
         parent-keys="circle_type:user_id"
         value-column="name" keys="user_id"
         visible-columns="name" separator=" - " width="680px">
