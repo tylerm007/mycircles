@@ -157,5 +157,51 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         except Exception as e:
             app_logger.error(f'Error loading cards from {file_name}: {e}')
             return jsonify({"error": f"Failed to load cards: {str(e)}"}), 500
+        '''
+        {
+            "id": 23,
+            "name": "Dancing",
+            "tags": [
+                "Fun"
+            ]
+        },
+        '''
         
+        for tag in initial_deck:
+            for tag_name in tag['tags']:
+                existing_tag = session.query(models.Tag).filter_by(tag_name=tag_name, fellowship_name='SAA').first()
+                if not existing_tag:
+                    new_tag = models.Tag(tag_name=tag_name, fellowship_name='SAA')
+                    session.add(new_tag)
+                    session.commit()
+                    app_logger.info(f'Added new tag: {tag_name}')
+                else:
+                    app_logger.info(f'Tag already exists: {tag_name}')
+        for card in initial_deck:
+            existing_card = session.query(models.Card).filter_by(circle_text=card['name'], fellowship_name='SAA').first()
+            if not existing_card:
+                new_card = models.Card(circle_text=card['name'], fellowship_name='SAA', card_type='free' ,is_active=True)
+                session.add(new_card)
+                session.commit()
+                app_logger.info(f'Added new card: {card["name"]}')
+            else:
+                app_logger.info(f'Card already exists: {card["name"]}') 
+        
+        session.query(models.CardSelection).filter(models.CardSelection.user_id == 1).delete()
+        session.query(models.CardTag).delete()
+        all_cards = session.query(models.Card).all()
+        all_tags = session.query(models.Tag).all()
+        for card in all_cards:
+            card_id = card.id
+            for initial_card in initial_deck:   
+                if card.circle_text == initial_card['name']:
+                    for tag_name in initial_card['tags']:
+                        tag = session.query(models.Tag).filter_by(tag_name=tag_name, fellowship_name='SAA').first()
+                        if tag:
+                            card_tag = models.CardTag(card_id=card_id, tag_id=tag.id)
+                            session.add(card_tag)
+                            app_logger.info(f'Added CardTag: {card.circle_text} - {tag.tag_name}')
+            session.commit()
+        # Return the initial deck as a JSON response
+        app_logger.info(f'Initial deck loaded with {len(initial_deck)} cards')
         return jsonify({"initialDeck": initial_deck})
