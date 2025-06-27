@@ -1,51 +1,34 @@
-<o-form-layout-manager attr="CardSelection" mode="tab" title="CARDSELECTION">
+<o-form-layout-manager attr="CardSelection" mode="dialog" title="CARDSELECTION">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
-        <o-table 
-            attr="CardSelectionTable" 
-            service="CardSelection" 
-            entity="CardSelection" 
-            title="CARDSELECTION"
-            keys="id"
-            columns="id;card_id;circle_type;user_id;selected_date" 
-            header-actions="R;D"
-            visible-columns="id;card_id;circle_type;user_id;selected_date"  
-            sort-columns="id" 
-            query-rows="20" 
-            quick-filter="yes"
-            row-height="medium" 
-            select-all-checkbox="true" 
-            pageable="yes"  
-            auto-adjust="true" 
-            virtual-scroll="yes" 
-            edition-mode="dblclick"
-            horizontal-scroll="yes"
-            show-title="yes"
-            export-button="yes">
-            
-            <o-table-column #id attr="id" title=" id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
-            
-            <o-table-column attr="card_id" title="card_id">
-    <o-table-cell-renderer-service attr="card_id" 
-        service="Card" entity="CardType" columns="id;fellowship_name"
-        parent-keys="id:card_id"
-        value-column="fellowship_name" keys="card_id"
-        visible-columns="fellowship_name" separator=" - " width="680px">
-    </o-table-cell-renderer-service>
-</o-table-column>
-            
-            <o-table-column #circle_type attr="circle_type" title="circle_type" editable="no" required="no" content-align="left"></o-table-column>
-            
+        <o-table attr="CardSelectionTable" service="CardSelection" entity="CardSelection" title="CARDSELECTION"
+            keys="id" columns="id;card_id;circle_type;user_id;selected_date" header-actions="R;D"
+            visible-columns="id;card_id;circle_type;user_id;selected_date" sort-columns="id" query-rows="20"
+            quick-filter="yes" row-height="medium" select-all-checkbox="true" pageable="yes" auto-adjust="true"
+            virtual-scroll="yes" edition-mode="dblclick" horizontal-scroll="yes" show-title="yes" export-button="yes">
+
+            <o-table-column #id attr="id" title=" id" type="integer" editable="no" required="no"
+                content-align="center"></o-table-column>
+
+            <o-table-column attr="card_id" title="Text">
+                <o-table-cell-renderer-service attr="card_id" service="Card" entity="CardType" columns="id;circle_text"
+                    parent-keys="id:card_id" value-column="circle_text" keys="card_id" visible-columns="circle_text"
+                    separator=" - " width="680px">
+                </o-table-cell-renderer-service>
+            </o-table-column>
+
+            <o-table-column #circle_type attr="circle_type" title="circle_type" editable="no" required="no"
+                content-align="left"></o-table-column>
+
             <o-table-column attr="user_id" title="user_id">
-    <o-table-cell-renderer-service attr="user_id" 
-        service="Users" entity="UserType" columns="id;name"
-        parent-keys="id:user_id"
-        value-column="name" keys="user_id"
-        visible-columns="name" separator=" - " width="680px">
-    </o-table-cell-renderer-service>
-</o-table-column>
-            
-            <o-table-column #selected_date attr="selected_date" title="selected_date" type="DATE" editable="no" required="yes" ></o-table-column>
-            
+                <o-table-cell-renderer-service attr="user_id" service="Users" entity="UserType" columns="id;name"
+                    parent-keys="id:user_id" value-column="name" keys="user_id" visible-columns="name" separator=" - "
+                    width="680px">
+                </o-table-cell-renderer-service>
+            </o-table-column>
+
+            <o-table-column #selected_date attr="selected_date" title="selected_date" type="DATE" editable="no"
+                required="yes"></o-table-column>
+
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>
