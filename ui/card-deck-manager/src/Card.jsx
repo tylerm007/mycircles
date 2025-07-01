@@ -3,15 +3,10 @@ import { useAuth } from './contexts/AuthContext';
 
 const fellowshipOptions = [
     "SAA",
-    "AA", 
-    "NA",
-    "CA",
-    "OA",
-    "GA",
-    "DA",
-    "MA",
-    "SA",
-    "EA",
+    "SA", 
+    "SLAA",
+    "SCA",
+    "SRA"
 ];
 
 const CardCreatorDialog = ({ open, onClose, onSave }) => {
