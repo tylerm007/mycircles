@@ -51,6 +51,13 @@ export const AuthProvider = ({ children }) => {
         keycloak.logout();
     };
 
+    const getEmail = () => {
+        if (!keycloak.tokenParsed) {
+            return '';
+        }
+        return keycloak.tokenParsed?.email || '';
+    };
+
     const getToken = () => {
         return keycloak.token;
     };
@@ -65,6 +72,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         getToken,
+        getEmail,
         refreshToken,
         loading,
     };

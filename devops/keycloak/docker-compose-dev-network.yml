@@ -24,6 +24,22 @@ services:
     environment:
         - KEYCLOAK_ADMIN=admin
         - KEYCLOAK_ADMIN_PASSWORD=password
+    services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.2
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_HOSTNAME=localhost
+      - KC_PROXY=edge
+      - KC_HTTP_ENABLED=true
+      - KC_EMAIL_FROM=tyler.band@aimicroservice.com
+      - KC_EMAIL_HOST=smtp.gmail.com
+      - KC_EMAIL_PORT=587
+      - KC_EMAIL_USER=tyler.band@aimicroservice.com
+      - KC_EMAIL_PASSWORD=your-smtp-password
+      - KC_EMAIL_STARTTLS=true
+  
 
 networks:
   network1:

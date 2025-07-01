@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import CardCreatorDialog from './Card'; // 
 
 const CardDeckManager = () => {
   // Get authentication state and functions
@@ -7,7 +8,7 @@ const CardDeckManager = () => {
 
   // Initial deck of cards with tags
   const [initialDeck, setInitialDeck] = useState([]);
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   // Fetch cards from API on component mount
   useEffect(() => {
     // Only fetch cards if user is authenticated
@@ -46,6 +47,7 @@ const CardDeckManager = () => {
           setRedBox(red); // Initialize red box with fetched cards
           setOrangeBox(orange); // Initialize orange box as empty   
           setGreenBox(green); // Initialize green box as empty
+          //console,log('AuthProvider getEmail:', AuthProvider.getEmail());
         }
       } catch (error) {
         console.error('Error fetching cards:', error);
@@ -93,6 +95,22 @@ const CardDeckManager = () => {
       </div>
     );
   }
+  // Updated addCard function
+  const addCard = () => {
+    console.log('Opening card dialog');
+    setIsDialogOpen(true);
+  };
+
+  // Handler for when a new card is saved
+  const handleCardSave = (newCard) => {
+    console.log('Adding new card to deck:', newCard);
+    setDeck(prev => [...prev, newCard]);
+  };
+
+  // Handler for closing the dialog
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
 
   const print = () => {
     const printWindow = window.open('', '_blank');
@@ -100,7 +118,7 @@ const CardDeckManager = () => {
       printWindow.document.write(`
         <html>
           <head>
-            <title>Print Cards</title>
+            <title>My Three Circles</title>
             <style>
               body { font-family: Arial, sans-serif; }
               .card { border: 1px solid #ccc; padding: 10px; margin: 10px; }
@@ -336,6 +354,12 @@ const CardDeckManager = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <button
+            onClick={addCard}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+          >
+            Add Card
+          </button>
         <div className="flex gap-2 ml-auto">
           <button
             onClick={reset}
@@ -420,7 +444,12 @@ const CardDeckManager = () => {
 
         </div>
       </div>
-
+      {/* Card Creator Dialog */}
+      <CardCreatorDialog
+        open={isDialogOpen}
+        onClose={handleDialogClose}
+        onSave={handleCardSave}
+      />
       {/* Instructions */}
       <div className="mt-6 text-sm text-gray-600 text-center">
         <p>Drag and drop cards between the deck and colored boxes. Use the search bar to filter cards by name or tags.</p>

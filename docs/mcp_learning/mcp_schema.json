@@ -10,8 +10,7 @@
             "methods": [
                 "GET",
                 "PATCH",
-                "POST",
-                "DELETE"
+                "POST"
             ],
             "fields": [
                 "id",
@@ -34,8 +33,7 @@
             "methods": [
                 "GET",
                 "PATCH",
-                "POST",
-                "DELETE"
+                "POST"
             ],
             "fields": [
                 "card_type"
@@ -50,8 +48,7 @@
             "methods": [
                 "GET",
                 "PATCH",
-                "POST",
-                "DELETE"
+                "POST"
             ],
             "fields": [
                 "name",

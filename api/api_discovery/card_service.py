@@ -4,6 +4,8 @@ from database import models  # Import your models here
 import safrs
 import csv
 import os
+from flask_jwt_extended import jwt_required
+
 app_logger = logging.getLogger(__name__)
 
 db = safrs.DB 
@@ -25,7 +27,57 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         user = request.args.get('user')
         app_logger.info(f'{user}')
         return jsonify({"result": f'hello from new_service! from {user}'})
+    
+    @app.route('/new_card', methods=['POST','OPTIONS'])
+    @jwt_required()
+    def new_card():
+        
+        """
+        Illustrates:    
+        Create a new card
+        curl -X POST http://localhost:5656/new_card -H "Content-Type: application/json" -d '{"circleText": "New Card", "fellowship": "SAA", "tags": ["tag1", "tag2"]}'
+        """
+        if request.method == 'OPTIONS':
+            return jsonify({"message": "CORS preflight response"}), 200
+        
+        data = request.json
+        app_logger.info(f'Creating new card with data: {data}')
+        
+        if not data or 'fellowship' not in data:
+            return jsonify({"error": "Invalid data"}), 400
+        try:
+            new_card = session.query(models.Card).filter_by(circle_text=data['circleText'], fellowship_name=data['fellowship']).first()
+            if new_card is None:
+                new_card = models.Card(circle_text=data['circleText'], fellowship_name=data['fellowship'], card_type='free', is_active=True)
+                session.add(new_card)
+                session.commit()
+                session.flush()
+    
+            # Ensure the new card has an ID before proceeding
+            # Add tags if provided
+            if 'tags' in data:
+                tag_list = data['tags'].split(',') if isinstance(data['tags'], str) else data['tags']
+                for tag_name in tag_list:
+                    tag = session.query(models.Tag).filter_by(tag_name=tag_name.strip(), fellowship_name=data['fellowship']).first()
+                    if not tag:
+                        tag = models.Tag(tag_name=tag_name.strip(), fellowship_name=data['fellowship'])
+                        session.add(tag)
+                        session.commit()
+                    card_tag = models.CardTag(card_id=new_card.id, tag_id=tag.id)
+                    session.add(card_tag)
+            
+            session.commit()
+            app_logger.info(f'New card created with ID: {new_card.id}')
+    
+        except Exception as e:
+            session.rollback()
+            app_logger.error(f'Error creating card: {e}')
+            return jsonify({"error": "Failed to create card"}), 500
+        
+        return jsonify({"status": "success", "message": "Card created successfully", "card_id": new_card.id}), 201
+ 
     @app.route('/update_cards', methods=['POST'])
+    @jwt_required()
     def update_cards():
         ''''
         Illustrates: save selection
@@ -41,22 +93,26 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             values (1, 4, 'outer', '2023-10-01')
         '''
         data = request.json
+        auth_header = request.headers.get("Authorization")
+        user_id = get_user_id()
+        # token now contains the Bearer token string (decode as needed)
         app_logger.info(f'Updating cards with data: {data}')
         inner = data.get('red', [])
         middle = data.get('orange', [])
         outer = data.get('green', [])
-        session.query(models.CardSelection).filter_by(user_id=1).delete()
+        session.query(models.CardSelection).filter_by(user_id=user_id).delete()
         for card in inner:
-            session.add(models.CardSelection(user_id=1, card_id=card['id'], circle_type='Inner'))
+            session.add(models.CardSelection(user_id=user_id, card_id=card['id'], circle_type='Inner'))
         for card in middle:
-            session.add(models.CardSelection(user_id=1, card_id=card['id'], circle_type='Middle'))
+            session.add(models.CardSelection(user_id=user_id, card_id=card['id'], circle_type='Middle'))
         for card in outer:
-            session.add(models.CardSelection(user_id=1, card_id=card['id'], circle_type='Outer'))
+            session.add(models.CardSelection(user_id=user_id, card_id=card['id'], circle_type='Outer'))
         session.commit()
         app_logger.info('Cards updated successfully')
         return jsonify({"status": "success", "message": "Cards updated successfully"}), 200
     
     @app.route('/get_cards', methods=['GET'])
+    @jwt_required()
     def get_cards():
         """
         Illustrates:    
@@ -94,7 +150,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             card.tags = [tag.tag_name for tag in tags if tag.id in [ct.tag_id for ct in card_tags if ct.card_id == card.id]]
         # Convert to a list of dictionaries for JSON serialization
         # Get selected card IDs for each circle type
-        card_selections = session.query(models.CardSelection).filter_by(user_id=1).all()
+        user_id = get_user_id()
+        card_selections = session.query(models.CardSelection).filter_by(user_id=user_id).all()
         selected_inner_ids = {cs.card_id for cs in card_selections if cs.circle_type == 'Inner'}
         selected_middle_ids = {cs.card_id for cs in card_selections if cs.circle_type == 'Middle'}
         selected_outer_ids = {cs.card_id for cs in card_selections if cs.circle_type == 'Outer'}
@@ -115,8 +172,10 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         return jsonify({"cards": cards, "red": red, "orange": orange, "green": green})
     
     @app.route('/reset_cards', methods=['GET'])
+    @jwt_required()
     def reset_cards():
-        session.query(models.CardSelection).filter_by(user_id=1).delete()
+        user_id = get_user_id()
+        session.query(models.CardSelection).filter_by(user_id=user_id).delete()
         session.commit()
         app_logger.info('Card selections reset successfully')
         return jsonify({"status": "success", "message": "Card selections reset successfully"}), 200
@@ -194,8 +253,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 app_logger.info(f'Added new card: {card["name"]}')
             else:
                 app_logger.info(f'Card already exists: {card["name"]}') 
-        
-        session.query(models.CardSelection).filter(models.CardSelection.user_id == 1).delete()
+        user_id = get_user_id()
+        session.query(models.CardSelection).filter(models.CardSelection.user_id == user_id).delete()
         #session.query(models.CardTag).delete()
         all_cards = session.query(models.Card).all()
         all_tags = session.query(models.Tag).all()
@@ -213,3 +272,24 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         # Return the initial deck as a JSON response
         app_logger.info(f'Initial deck loaded with {len(initial_deck)} cards')
         return jsonify({"initialDeck": initial_deck})
+    
+    def  get_user_id():
+        """ 
+        Illustrates:    
+        Get the user ID from the JWT token
+        
+        # Assuming you have a way to get the current user from the JWT token
+        # This is a placeholder function; implement your logic to extract user ID
+        """
+        from security.system.authorization import Security
+        user_info = Security.current_user()
+        user = session.query(models.Users).filter_by(name=user_info['name']).first()
+        if user is None:
+            app_logger.warning('User not found')
+            user = models.Users(name=user_info['name'], fellowship_name='SAA', email=user_info['name'])
+            session.add(user)
+            session.commit()
+            app_logger.info(f'Created new user: {user.name}')
+            # If you want to return None when user is not found, uncomment the next line
+            session.flush()
+        return user.id
