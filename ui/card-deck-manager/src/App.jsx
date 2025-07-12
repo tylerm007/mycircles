@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import CardCreatorDialog from './Card'; // 
+import InventoryCalendar from './inventory';
+
 
 const CardDeckManager = () => {
   // Get authentication state and functions
@@ -9,6 +11,7 @@ const CardDeckManager = () => {
   // Initial deck of cards with tags
   const [initialDeck, setInitialDeck] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showInventoryDialog, setShowInventoryDialog] = useState(false);
   // Fetch cards from API on component mount
   useEffect(() => {
     // Only fetch cards if user is authenticated
@@ -111,7 +114,10 @@ const CardDeckManager = () => {
   const handleDialogClose = () => {
     setIsDialogOpen(false);
   };
-
+  const inventory = () => {
+    console.log('Opening inventory dialog');
+    setShowInventoryDialog(true);
+  };    
   const print = () => {
     const printWindow = window.open('', '_blank');
     if (printWindow) {
@@ -360,6 +366,13 @@ const CardDeckManager = () => {
           >
             Add Card
           </button>
+          <div>&nbsp;</div>
+          <button
+            onClick={inventory}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+          >
+            Daily Inventory
+          </button>
         <div className="flex gap-2 ml-auto">
           <button
             onClick={reset}
@@ -450,6 +463,8 @@ const CardDeckManager = () => {
         onClose={handleDialogClose}
         onSave={handleCardSave}
       />
+      {/* Inventory Dialog */}
+      <InventoryCalendar open={showInventoryDialog} onClose={() => setShowInventoryDialog(false)} />
       {/* Instructions */}
       <div className="mt-6 text-sm text-gray-600 text-center">
         <p>Drag and drop cards between the deck and colored boxes. Use the search bar to filter cards by name or tags.</p>

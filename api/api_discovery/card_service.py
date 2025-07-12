@@ -28,6 +28,132 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         app_logger.info(f'{user}')
         return jsonify({"result": f'hello from new_service! from {user}'})
     
+    def getCardSelection(card_selection, card_id):
+        """
+        Illustrates:    
+        Get the circle type for a given card ID.
+        """
+        for selection in card_selection:
+            if selection.card_id == card_id:
+                return selection.circle_type
+        return "Unknown Circle"
+    
+    def getCardText(cards,card_id) -> str:
+        """
+        Illustrates:    
+        Get the card text for a given card ID.
+        """
+        for card in cards:
+            if card.id == card_id:
+                return card.circle_text
+        return "Unknown Card"
+    def create_inventory(user_id, date):
+        """
+        Illustrates:    
+        Create an inventory record for a specific date.
+        curl -X POST http://localhost:5656/create_inventory -H "Content-Type: application/json" -d '{"date": "2023-10-01"}'
+        """
+        parent = session.query(models.DailyResponseCount).filter_by(user_id=user_id, response_date=date).first()
+        if not parent:
+            parent = models.DailyResponseCount(user_id=user_id, response_date=date)
+            session.add(parent)
+            session.commit()
+            session.flush()
+            app_logger.info(f'Created DailyResponseCount for user {user_id} on {date}')
+        inventory = []
+        card_selection = session.query(models.CardSelection)\
+            .filter(models.CardSelection.user_id == user_id) \
+            .all()
+        if not card_selection:
+            app_logger.info('No card selections found')
+            return jsonify({"error": "No card selections found"}), 404
+        cards = session.query(models.Card).all()    
+        for card in card_selection:
+            # create an array of items from card_selection
+            card_id = card.card_id  # Example card ID, replace with actual logic to get card ID
+            card_text = getCardText(cards,card_id)  # Example card text, replace with actual logic to
+            #response = models.Response(user_id=user_id, card_id=card_id, response_date=date, response_text=card_text, response_bool=False, response_range=0)
+            response = {"id": card_id, "text": card_text, "flag": False, "type": card.circle_type}
+            inventory.append(response)  # Assuming to_dict() method exists in Response model
+        app_logger.info(f'Created initial inventory for date: {date}')
+        return inventory
+    
+    @app.route('/update_inventory', methods=['POST', 'OPTIONS'])
+    @jwt_required()
+    def update_inventory():
+        if request.method == 'OPTIONS':
+            return jsonify({"message": "CORS preflight response"}), 200
+        payload = request.json
+        user_id = get_user_id()
+        date = payload.get('date', None)
+        inventory = payload.get('inventory', [])
+        if not date or not inventory:
+            return jsonify({"error": "Date and inventory are required"}), 400
+        # Update the inventory in the database
+        for item in inventory:
+            card_id = item.get('id')
+            card_text = item.get('text')
+            card_flag = item.get('flag')
+            card_type = item.get('type')
+            # Update the card in the database
+            response = session.query(models.Response).filter_by(user_id=user_id, card_id=card_id, response_date=date).first() \
+                or models.Response(user_id=user_id, card_id=card_id, response_date=date)
+            response.response_bool = card_flag
+            response.response_range = 0
+            session.add(response)
+            app_logger.info(f'Updating daily response inventory for user {user_id} on {date} using: {item}')
+            session.commit()
+        return jsonify({"message": "Inventory Updated"}), 200
+
+    @app.route('/load_inventory', methods=['POST', 'OPTIONS'])
+    @jwt_required()
+    def load_inventory():
+        """
+        Illustrates:    
+        Get the current date and time for inventory purposes.
+        curl -X POST http://localhost:5656/inventory_date
+        """
+        if request.method == 'OPTIONS':
+            return jsonify({"message": "CORS preflight response"}), 200
+        payload = request.json
+        date = payload.get('date', None)
+        if not date:
+            app_logger.error('No date provided in payload')
+            return jsonify({"error": "No date provided"}), 400
+        '''
+        user_id = Column(ForeignKey('users.id'))
+        card_id = Column(ForeignKey('card_selection.id'))
+        response_date = Column(Date, server_default=text("CURRENT_TIMESTAMP"), nullable=False)
+        response_text = Column(Text)
+        response_bool = Column(Boolean)
+        response_range = Column(Integer)
+        
+        '''
+        user_id = get_user_id()
+        
+        app_logger.info(f'Inventory date request with payload: {payload}')
+        card_selection = session.query(models.CardSelection).all()
+        if not card_selection:
+            app_logger.info('No card selections found')
+            return jsonify({"error": "No card selections found"}), 404
+        inventory = session.query(models.Response) \
+            .filter(models.Response.response_date == date) \
+            .filter(models.Response.user_id == user_id) \
+            .all()
+        if not inventory:
+            inventory = create_inventory(user_id,date)
+            return jsonify(inventory), 201
+        cards = session.query(models.Card).all()
+        if not cards:
+            app_logger.info('No cards found')
+            return jsonify({"error": "No cards found"}), 404
+        data =[]
+        for card in inventory:
+            card_text = getCardText(cards, card.card.card_id)
+            row = {"id": card.card_id, "text": card_text, "flag": card.response_bool, "type": card.card.circle_type}
+            data.append(row)
+
+        return jsonify(data), 200
     @app.route('/new_card', methods=['POST','OPTIONS'])
     @jwt_required()
     def new_card():

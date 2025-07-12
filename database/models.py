@@ -25,6 +25,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Mapped
 from sqlalchemy.sql.sqltypes import NullType
 from typing import List
+from sqlalchemy import Sequence
 
 db = SQLAlchemy() 
 Base = declarative_base()  # type: flask_sqlalchemy.model.DefaultMeta
@@ -75,9 +76,9 @@ class Circle(Base):  # type: ignore
 
 
 
-class DailyReponseCount(Base):  # type: ignore
-    __tablename__ = 'daily_reponse_count'
-    _s_collection_name = 'DailyReponseCount'  # type: ignore
+class DailyResponseCount(Base):  # type: ignore
+    __tablename__ = 'daily_response_count'
+    _s_collection_name = 'DailyResponseCount'  # type: ignore
 
     user_id = Column(Integer, primary_key=True, nullable=False)
     response_date = Column(Date, primary_key=True, nullable=False)
@@ -89,7 +90,7 @@ class DailyReponseCount(Base):  # type: ignore
     # parent relationships (access parent)
 
     # child relationships (access children)
-    ResponseList : Mapped[List["Response"]] = relationship(back_populates="daily_reponse_count")
+    ResponseList : Mapped[List["Response"]] = relationship(back_populates="daily_response_count")
 
 
 
@@ -128,6 +129,7 @@ class Card(Base):  # type: ignore
     # child relationships (access children)
     CardSelectionList : Mapped[List["CardSelection"]] = relationship(back_populates="card")
     CardTagList : Mapped[List["CardTag"]] = relationship(back_populates="card")
+    ResponseList : Mapped[List["Response"]] = relationship(back_populates="card")
 
 
 
@@ -190,7 +192,7 @@ class CardSelection(Base):  # type: ignore
     users : Mapped["Users"] = relationship(back_populates=("CardSelectionList"))
 
     # child relationships (access children)
-    ResponseList : Mapped[List["Response"]] = relationship(back_populates="card")
+    #ResponseList : Mapped[List["Response"]] = relationship(back_populates="card")
 
 
 
@@ -214,21 +216,21 @@ class Response(Base):  # type: ignore
     __tablename__ = 'response'
     _s_collection_name = 'Response'  # type: ignore
     __table_args__ = (
-        ForeignKeyConstraint(['user_id', 'response_date'], ['daily_reponse_count.user_id', 'daily_reponse_count.response_date']),
+        ForeignKeyConstraint(['user_id', 'response_date'], ['daily_response_count.user_id', 'daily_response_count.response_date']),
         UniqueConstraint('user_id', 'card_id', 'response_date')
     )
 
-    id = Column(Integer, server_default=text("nextval('response_id_seq'::regclass)"), primary_key=True)
+    id = Column(Integer, Sequence('response_id_seq'), primary_key=True)
     user_id = Column(ForeignKey('users.id'))
-    card_id = Column(ForeignKey('card_selection.id'))
+    card_id = Column(ForeignKey('card.id'))
     response_date = Column(Date, server_default=text("CURRENT_TIMESTAMP"), nullable=False)
     response_text = Column(Text)
     response_bool = Column(Boolean)
     response_range = Column(Integer)
 
     # parent relationships (access parent)
-    card : Mapped["CardSelection"] = relationship(back_populates=("ResponseList"))
-    daily_reponse_count : Mapped["DailyReponseCount"] = relationship(back_populates=("ResponseList"))
+    card : Mapped["Card"] = relationship(back_populates=("ResponseList"))
+    daily_response_count : Mapped["DailyResponseCount"] = relationship(back_populates=("ResponseList"))
     users : Mapped["Users"] = relationship(back_populates=("ResponseList"))
 
     # child relationships (access children)
