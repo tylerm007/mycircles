@@ -3,6 +3,40 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import CardCreatorDialog from './Card'; // 
 import InventoryCalendar from './inventory';
 
+// Mobile drag-and-drop support
+// We'll use touch events to simulate drag-and-drop for mobile devices
+
+// Utility to detect touch device
+const isTouchDevice = () =>
+  typeof window !== 'undefined' &&
+  ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+const useMobileDnD = ({
+  onDropCard,
+  getCardById,
+  setDraggingCard,
+  draggingCard,
+}) => {
+  // Attach touch event handlers to card and drop zones
+  // onDropCard(card, source, target)
+  // getCardById(id)
+  // setDraggingCard(card)
+  // draggingCard: { card, source }
+  const handleTouchStart = (card, source) => (e) => {
+    setDraggingCard({ card, source });
+    // Optionally highlight drop zones
+  };
+
+  const handleTouchEnd = (target) => (e) => {
+    if (draggingCard && draggingCard.card && draggingCard.source !== target) {
+      onDropCard(draggingCard.card, draggingCard.source, target);
+    }
+    setDraggingCard(null);
+  };
+
+  return { handleTouchStart, handleTouchEnd };
+};
+
 
 const CardDeckManager = () => {
   // Get authentication state and functions

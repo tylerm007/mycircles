@@ -72,7 +72,9 @@ def declare_logic():
             if did_stamping:
                 logic_row.log("early_row_event_all_classes - handle_all did stamping")     
     Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all)
-
+    Rule.count(derive=models.DailyResponseCount.count_inner, as_count_of=models.Response, where=lambda row: row.circle_type.lower() == 'inner' and row.response_bool == True)
+    Rule.count(derive=models.DailyResponseCount.count_outer, as_count_of=models.Response, where=lambda row: row.circle_type.lower() == 'outer' and row.response_bool == True)
+    Rule.count(derive=models.DailyResponseCount.count_middle, as_count_of=models.Response, where=lambda row: row.circle_type.lower() == 'middle' and row.response_bool == True)
     #als rules report
     from api.system import api_utils
     # api_utils.rules_report()

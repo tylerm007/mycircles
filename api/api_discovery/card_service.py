@@ -38,6 +38,16 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 return selection.circle_type
         return "Unknown Circle"
     
+    def getCardSelection(card_selection, card_id):
+        """
+        Illustrates:    
+        Get the circle type for a given card ID.
+        """
+        for selection in card_selection:
+            if selection.card_id == card_id:
+                return selection.circle_type
+        return "Unknown Circle"
+    
     def getCardText(cards,card_id) -> str:
         """
         Illustrates:    
@@ -47,6 +57,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             if card.id == card_id:
                 return card.circle_text
         return "Unknown Card"
+    
     def create_inventory(user_id, date):
         """
         Illustrates:    
@@ -100,6 +111,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 or models.Response(user_id=user_id, card_id=card_id, response_date=date)
             response.response_bool = card_flag
             response.response_range = 0
+            response.circle_type = card_type
             session.add(response)
             app_logger.info(f'Updating daily response inventory for user {user_id} on {date} using: {item}')
             session.commit()
@@ -124,6 +136,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         user_id = Column(ForeignKey('users.id'))
         card_id = Column(ForeignKey('card_selection.id'))
         response_date = Column(Date, server_default=text("CURRENT_TIMESTAMP"), nullable=False)
+        circle_type = Column(String(20))
         response_text = Column(Text)
         response_bool = Column(Boolean)
         response_range = Column(Integer)
@@ -149,11 +162,13 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             return jsonify({"error": "No cards found"}), 404
         data =[]
         for card in inventory:
-            card_text = getCardText(cards, card.card.card_id)
-            row = {"id": card.card_id, "text": card_text, "flag": card.response_bool, "type": card.card.circle_type}
+            card_text = getCardText(cards, card.card.id)
+            circle_type = getCardSelection(card_selection, card.id)
+            row = {"id": card.card_id, "text": card_text, "flag": card.response_bool, "type": circle_type}
             data.append(row)
 
         return jsonify(data), 200
+    
     @app.route('/new_card', methods=['POST','OPTIONS'])
     @jwt_required()
     def new_card():
@@ -412,7 +427,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         user = session.query(models.Users).filter_by(name=user_info['name']).first()
         if user is None:
             app_logger.warning('User not found')
-            user = models.Users(name=user_info['name'], fellowship_name='SAA', email=user_info['name'])
+            user = models.Users(name=user_info['name'], fellowship_name='SAA', email=user_info['name']) #TODO
             session.add(user)
             session.commit()
             app_logger.info(f'Created new user: {user.name}')

@@ -115,6 +115,7 @@ CREATE TABLE response (
     user_id INTEGER REFERENCES users(id),
     card_id INTEGER REFERENCES card(id),
     response_date DATE NOT NULL DEFAULT current_timestamp,
+    circle_type VARCHAR(20),
     response_text TEXT,
     response_bool BOOLEAN,
     response_range INTEGER ,

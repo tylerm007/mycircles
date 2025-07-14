@@ -223,6 +223,7 @@ class Response(Base):  # type: ignore
     id = Column(Integer, Sequence('response_id_seq'), primary_key=True)
     user_id = Column(ForeignKey('users.id'))
     card_id = Column(ForeignKey('card.id'))
+    circle_type = Column(String(20))
     response_date = Column(Date, server_default=text("CURRENT_TIMESTAMP"), nullable=False)
     response_text = Column(Text)
     response_bool = Column(Boolean)
