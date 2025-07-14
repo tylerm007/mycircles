@@ -10,8 +10,8 @@ after-insert-mode="new" class="standalone-form-container" >
       
         <o-list-picker 
         attr="card_id"
-        service="CardSelection" 
-        entity="CardSelectionType"
+        service="Card" 
+        entity="CardType"
         fxFlex="30" 
         query-on-init="no" 
         query-on-bind="yes" 
@@ -21,15 +21,15 @@ after-insert-mode="new" class="standalone-form-container" >
         value-column="id" 
         value-column-type="INTEGER"  
         keys="id" 
-        columns="id;card_id;id" 
+        columns="id;card_id;fellowship_name" 
         title="card_id"
-        visible-columns="id;id" 
+        visible-columns="id;fellowship_name" 
         separator=" - " width="680px" class="form-field">
 </o-list-picker>
       
         <o-list-picker 
         attr="user_id"
-        service="Users" 
+        service="User" 
         entity="UserType"
         fxFlex="30" 
         query-on-init="no" 
@@ -53,6 +53,8 @@ after-insert-mode="new" class="standalone-form-container" >
         <o-checkbox #response_bool attr="response_bool" label="response_bool" read-only="no" enabled="yes"></o-checkbox>
       
         <o-integer-input #response_range attr="response_range" label="response_range" type="integer" editable="no" required="no" ></o-integer-input>
+      
+        <o-text-input #circle_type attr="circle_type" label="circle_type" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
       
 </div>
 </o-row>

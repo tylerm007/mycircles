@@ -23,7 +23,7 @@ export const routes: Routes = [
     
         { path: 'Circle', loadChildren: () => import('./Circle/Circle.module').then(m => m.CircleModule) },
     
-        { path: 'DailyReponseCount', loadChildren: () => import('./DailyReponseCount/DailyReponseCount.module').then(m => m.DailyReponseCountModule) },
+        { path: 'DailyResponseCount', loadChildren: () => import('./DailyResponseCount/DailyResponseCount.module').then(m => m.DailyResponseCountModule) },
     
         { path: 'Fellowship', loadChildren: () => import('./Fellowship/Fellowship.module').then(m => m.FellowshipModule) },
     

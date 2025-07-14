@@ -3,11 +3,11 @@ import { OFormComponent, OntimizeService, OListPickerComponent, OTableComponent,
 
 
 @Component({
-  selector: 'DailyReponseCount-detail',
-  templateUrl: './DailyReponseCount-detail.component.html',
-  styleUrls: ['./DailyReponseCount-detail.component.scss']
+  selector: 'DailyResponseCount-detail',
+  templateUrl: './DailyResponseCount-detail.component.html',
+  styleUrls: ['./DailyResponseCount-detail.component.scss']
 })
-export class DailyReponseCountDetailComponent implements OnInit  {
+export class DailyResponseCountDetailComponent implements OnInit  {
   protected service: OntimizeService;
 
   @ViewChild('oDetailForm') form: OFormComponent;
@@ -22,7 +22,7 @@ export class DailyReponseCountDetailComponent implements OnInit  {
 
   protected configureService() {
     const conf = this.service.getDefaultServiceConfiguration();
-    conf['path'] = '/DailyReponseCount';
+    conf['path'] = '/DailyResponseCount';
     this.service.configureService(conf);
   }
   onDataLoaded(e: object) {

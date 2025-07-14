@@ -1,13 +1,13 @@
 <div class="container">
 <o-form-container breadcrumb="yes" breadcrumb-label-columns="user_id" breadcrumb-separator=", " class="fill-form">
-      <o-form #form attr="DailyReponseCount_form_edit" 
-        service="DailyReponseCount" 
-        entity="DailyReponseCount" 
+      <o-form #form attr="DailyResponseCount_form_edit" 
+        service="DailyResponseCount" 
+        entity="DailyResponseCount" 
         fxLayout="column" 
         show-header="yes" 
         header-actions="R;U;D"
         #oDetailForm keys="user_id;response_date" 
-        keys-sql-types="INTEGER;INTEGER" 
+        keys-sql-types="INTEGER;VARCHAR" 
         show-header-navigation="yes"
         (onDataLoaded)="onDataLoaded($event)">
 
@@ -37,11 +37,11 @@
         entity="Response" 
         keys="id"
         parent-keys="user_id:user_id"
-        columns="id;card_id;user_id;response_date;response_text;response_bool;response_range"  
+        columns="id;card_id;user_id;response_date;response_text;response_bool;response_range;circle_type"  
         horizontal-scroll="yes"
         detail-form-route="Response" 
         edit-form-route="Response"
-        visible-columns="id;card_id;user_id;response_date;response_text;response_bool;response_range"  
+        visible-columns="id;card_id;user_id;response_date;response_text;response_bool;response_range;circle_type"  
         sort-columns="id" 
         query-rows="25" 
         quick-filter="yes"
@@ -61,10 +61,10 @@
         
           <o-table-column attr="card_id" title="card_id">
     <o-table-cell-renderer-service attr="card_id" 
-        service="CardSelection" entity="CardSelectionType" columns="id;id"
+        service="Card" entity="CardType" columns="id;fellowship_name"
         parent-keys="user_id:card_id"
-        value-column="id" keys="card_id"
-        visible-columns="id" separator=" - " width="680px">
+        value-column="fellowship_name" keys="card_id"
+        visible-columns="fellowship_name" separator=" - " width="680px">
     </o-table-cell-renderer-service>
 </o-table-column>
         
@@ -87,6 +87,8 @@
 </o-table-column>
         
           <o-table-column #response_range attr="response_range" title="response_range" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column #circle_type attr="circle_type" title="circle_type" editable="no" required="no" content-align="left"></o-table-column>
         
         <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
       </o-table>

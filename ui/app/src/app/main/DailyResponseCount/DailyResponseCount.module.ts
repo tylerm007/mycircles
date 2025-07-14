@@ -2,7 +2,7 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OntimizeWebModule } from 'ontimize-web-ngx';
 import { SharedModule } from '../../shared/shared.module';
-import  {DAILYREPONSECOUNT_MODULE_DECLARATIONS, DailyReponseCountRoutingModule} from  './DailyReponseCount-routing.module';
+import  {DAILYRESPONSECOUNT_MODULE_DECLARATIONS, DailyResponseCountRoutingModule} from  './DailyResponseCount-routing.module';
 
 @NgModule({
 
@@ -10,10 +10,10 @@ import  {DAILYREPONSECOUNT_MODULE_DECLARATIONS, DailyReponseCountRoutingModule} 
     SharedModule,
     CommonModule,
     OntimizeWebModule,
-    DailyReponseCountRoutingModule
+    DailyResponseCountRoutingModule
   ],
-  declarations: DAILYREPONSECOUNT_MODULE_DECLARATIONS,
-  exports: DAILYREPONSECOUNT_MODULE_DECLARATIONS,
+  declarations: DAILYRESPONSECOUNT_MODULE_DECLARATIONS,
+  exports: DAILYRESPONSECOUNT_MODULE_DECLARATIONS,
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class DailyReponseCountModule { }
+export class DailyResponseCountModule { }

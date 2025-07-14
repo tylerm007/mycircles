@@ -5,11 +5,11 @@ import {OReportModule,OReportStoreService} from 'ontimize-web-ngx-report'
 import { OGridComponent } from 'ontimize-web-ngx';
 
 @Component({
-  selector: 'DailyReponseCount-home',
-  templateUrl: './DailyReponseCount-home.component.html',
-  styleUrls: ['./DailyReponseCount-home.component.scss']
+  selector: 'DailyResponseCount-home',
+  templateUrl: './DailyResponseCount-home.component.html',
+  styleUrls: ['./DailyResponseCount-home.component.scss']
 })
-export class DailyReponseCountHomeComponent implements AfterViewInit {
+export class DailyResponseCountHomeComponent implements AfterViewInit {
 
   @ViewChild('table', { static: true }) table: OTableComponent;
 

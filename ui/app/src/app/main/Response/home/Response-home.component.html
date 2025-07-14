@@ -6,9 +6,9 @@
             entity="Response" 
             title="RESPONSE"
             keys="id"
-            columns="id;card_id;user_id;response_date;response_text;response_bool;response_range" 
+            columns="id;card_id;user_id;response_date;response_text;response_bool;response_range;circle_type" 
             header-actions="R;D"
-            visible-columns="id;card_id;user_id;response_date;response_text;response_bool;response_range"  
+            visible-columns="id;card_id;user_id;response_date;response_text;response_bool;response_range;circle_type"  
             sort-columns="id" 
             query-rows="20" 
             quick-filter="yes"
@@ -24,12 +24,12 @@
             
             <o-table-column #id attr="id" title=" id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
             
-            <o-table-column attr="card_id" title="card_id">
+            <o-table-column attr="card_id" title="Card">
     <o-table-cell-renderer-service attr="card_id" 
-        service="CardSelection" entity="CardSelectionType" columns="id;id"
+        service="Card" entity="CardType" columns="id;circle_text"
         parent-keys="id:card_id"
-        value-column="id" keys="card_id"
-        visible-columns="id" separator=" - " width="680px">
+        value-column="circle_text" keys="card_id"
+        visible-columns="circle_text" separator=" - " width="680px">
     </o-table-cell-renderer-service>
 </o-table-column>
             
@@ -52,6 +52,8 @@
 </o-table-column>
             
             <o-table-column #response_range attr="response_range" title="response_range" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column #circle_type attr="circle_type" title="circle_type" editable="no" required="no" content-align="left"></o-table-column>
             
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>

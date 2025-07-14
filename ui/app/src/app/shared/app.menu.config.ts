@@ -10,7 +10,7 @@ import { CardtypeCardComponent } from './Cardtype-card/Cardtype-card.component';
 
 import { CircleCardComponent } from './Circle-card/Circle-card.component';
 
-import { DailyReponseCountCardComponent } from './DailyReponseCount-card/DailyReponseCount-card.component';
+import { DailyResponseCountCardComponent } from './DailyResponseCount-card/DailyResponseCount-card.component';
 
 import { FellowshipCardComponent } from './Fellowship-card/Fellowship-card.component';
 
@@ -38,11 +38,11 @@ export const MENU_CONFIG: MenuRootItem[] = [
     
         ,{ id: 'Circle', name: 'CIRCLE', icon: 'view_list', route: '/main/Circle' }
     
-        //,{ id: 'DailyReponseCount', name: 'DAILYREPONSECOUNT', icon: 'view_list', route: '/main/DailyReponseCount' }
+        ,{ id: 'DailyResponseCount', name: 'DAILYRESPONSECOUNT', icon: 'view_list', route: '/main/DailyResponseCount' }
     
         ,{ id: 'Fellowship', name: 'FELLOWSHIP', icon: 'view_list', route: '/main/Fellowship' }
     
-       // ,{ id: 'Response', name: 'RESPONSE', icon: 'view_list', route: '/main/Response' }
+        ,{ id: 'Response', name: 'RESPONSE', icon: 'view_list', route: '/main/Response' }
     
         ,{ id: 'Tag', name: 'TAG', icon: 'view_list', route: '/main/Tag' }
     
@@ -68,7 +68,7 @@ export const MENU_COMPONENTS = [
 
     ,CircleCardComponent
 
-    ,DailyReponseCountCardComponent
+    ,DailyResponseCountCardComponent
 
     ,FellowshipCardComponent
 

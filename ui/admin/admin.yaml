@@ -1,5 +1,5 @@
 about:
-  date: June 25, 2025 21:40:01
+  date: July 14, 2025 14:20:33
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
@@ -33,6 +33,11 @@ resources:
       - card_id
       name: CardTagList
       resource: CardTag
+    - direction: tomany
+      fks:
+      - card_id
+      name: ResponseList
+      resource: Response
     - direction: toone
       fks:
       - card_type
@@ -58,11 +63,6 @@ resources:
       required: true
       type: DATE
     tab_groups:
-    - direction: tomany
-      fks:
-      - card_id
-      name: ResponseList
-      resource: Response
     - direction: toone
       fks:
       - card_id
@@ -134,7 +134,7 @@ resources:
       resource: CardSelection
     type: Circle
     user_key: circle_type
-  DailyReponseCount:
+  DailyResponseCount:
     attributes:
     - label: ' user_id*'
       name: user_id
@@ -153,7 +153,7 @@ resources:
       - response_date
       name: ResponseList
       resource: Response
-    type: DailyReponseCount
+    type: DailyResponseCount
     user_key: user_id
   Fellowship:
     attributes:
@@ -198,18 +198,19 @@ resources:
     - name: response_bool
       type: Boolean
     - name: response_range
+    - name: circle_type
     tab_groups:
     - direction: toone
       fks:
       - card_id
       name: card
-      resource: CardSelection
+      resource: Card
     - direction: toone
       fks:
       - user_id
       - response_date
-      name: daily_reponse_count
-      resource: DailyReponseCount
+      name: daily_response_count
+      resource: DailyResponseCount
     - direction: toone
       fks:
       - user_id
