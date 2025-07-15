@@ -151,9 +151,7 @@ const InventoryCalendar: React.FC<InventoryCalendarProps> = ({ open, onClose }) 
                 {success && <div className="success">{success}</div>}
                 {inventory.length > 0 && (
                     <div id="inventorySection" className="inventory-section">
-                        <div className="selected-date" style={{ textAlign: 'right', marginBottom: 8 }}>
-                            Inventory for {new Date(selectedDate).toLocaleDateString()} &nbsp;&nbsp;
-                        </div>
+                        <h2 className="inventory-date" style={{ textAlign: 'center', marginBottom: 16 }}>Enter your activities and reflections for {selectedDate}</h2>
                         <div>&nbsp;</div>
                         <div id="inventoryData">
                             {Object.keys(groupedInventory).map(type => (
@@ -162,14 +160,14 @@ const InventoryCalendar: React.FC<InventoryCalendarProps> = ({ open, onClose }) 
                                     {groupedInventory[type].map(item => (
                                         <div className="inventory-item" key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #e2e8f0' }}>
                                             <div className="item-text" style={{ flex: 1 }}>{item.text}</div>
-                                            <label className="toggle-switch" style={{ marginLeft: 'auto' }}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={item.flag}
-                                                    onChange={e => updateFlag(item.id, e.target.checked)}
-                                                />
-                                                <span className="slider"></span>
-                                            </label>
+                                            <Button
+                                                variant={item.flag ? "contained" : "outlined"}
+                                                color={item.flag ? "success" : "inherit"}
+                                                onClick={() => updateFlag(item.id, !item.flag)}
+                                                style={{ marginLeft: 'auto', minWidth: 80 }}
+                                            >
+                                                {item.flag ? "Yes" : "No"}
+                                            </Button>
                                         </div>
                                     ))}
                                 </div>

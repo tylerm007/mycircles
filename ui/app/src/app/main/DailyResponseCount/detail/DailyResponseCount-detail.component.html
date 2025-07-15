@@ -61,10 +61,10 @@
         
           <o-table-column attr="card_id" title="card_id">
     <o-table-cell-renderer-service attr="card_id" 
-        service="Card" entity="CardType" columns="id;fellowship_name"
-        parent-keys="user_id:card_id"
-        value-column="fellowship_name" keys="card_id"
-        visible-columns="fellowship_name" separator=" - " width="680px">
+        service="CardSelection" entity="CardSelectionType" columns="id;circle_text"
+        parent-keys="card_id"
+        value-column="circle_text" keys="card_id"
+        visible-columns="circle_text" separator=" - " width="680px">
     </o-table-cell-renderer-service>
 </o-table-column>
         

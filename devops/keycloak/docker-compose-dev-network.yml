@@ -1,47 +1,50 @@
-version: '3'
-
 # cd devops/keycloak; docker compose -f docker-compose-dev-network.yml up
 
 # network: https://stackoverflow.com/questions/44073387/is-it-possible-to-expose-http-ports-with-docker-compose
-
 services:
+  mycircles:
+    image: tylerm007/mycircles
+    environment:
+      - APILOGICPROJECT_VERBOSE=true
+      - SECURITY_ENABLED=true
+      # Set KEYCLOAK_BASE to the internal Docker network hostname and port
+      - KEYCLOAK_BASE=http://localhost
+      # Set KEYCLOAK_BASE_URL to the realm endpoint (adjust 'kcals' to your realm name)
+      - KEYCLOAK_BASE_URL=http://localhost/realms/kcals
+      - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=postgresql://postgres:p@postgresql-service/circles
+      - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:p@postgresql-service/authdb
+    expose:
+      - 5656
+      - 5173
+    ports:
+      - 5656:5656
+      - 5173:5173
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.6
     container_name: keycloak
     restart: always
     #command: start --hostname-strict=false --proxy edge --hostname-url https://kc.hardened.be --hostname-strict-https=false
-    # use next for import, or next+1 for data
     command: start-dev --import-realm --proxy=edge --hostname-strict=false --hostname-strict-https=false
-    # command: start-dev  --proxy=edge --hostname-strict=false --hostname-strict-https=false
     ports:
         - 8080:8080
     volumes:
-        # - $PWD/devops/keycloak/import:/opt/keycloak/data/import
-        # use next for import, or next+1 for data
         - $PWD/import:/opt/keycloak/data/import
-        # - $PWD/data:/opt/keycloak/data
     environment:
         - KEYCLOAK_ADMIN=admin
         - KEYCLOAK_ADMIN_PASSWORD=password
-    services:
-  keycloak:
-    image: quay.io/keycloak/keycloak:24.0.2
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-      - KC_HOSTNAME=localhost
-      - KC_PROXY=edge
-      - KC_HTTP_ENABLED=true
-      - KC_EMAIL_FROM=tyler.band@aimicroservice.com
-      - KC_EMAIL_HOST=smtp.gmail.com
-      - KC_EMAIL_PORT=587
-      - KC_EMAIL_USER=tyler.band@aimicroservice.com
-      - KC_EMAIL_PASSWORD=your-smtp-password
-      - KC_EMAIL_STARTTLS=true
-  
 
-networks:
-  network1:
-    name: dev-network
-    external: true
+  nginx:
+    image: nginx:latest
+    depends_on: 
+        - keycloak
+    container_name: nginx
+    volumes:
+        - $PWD/nginx/nginx.conf:/etc/nginx/nginx.conf
+        - $PWD/nginx/cert.pem:/root/cert.pem
+        - $PWD/nginx/key.pem:/root/key.pem
+        - $PWD/nginx/admin-app:/usr/share/nginx/html/admin-app
+    ports:
+        - 80:80
+        - 443:443
+  

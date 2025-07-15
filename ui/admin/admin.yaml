@@ -76,8 +76,8 @@ resources:
     - direction: toone
       fks:
       - user_id
-      name: user
-      resource: User
+      name: users
+      resource: Users
     type: CardSelection
     user_key: id
   CardTag:
@@ -179,7 +179,7 @@ resources:
       fks:
       - fellowship_name
       name: UserList
-      resource: User
+      resource: Users
     type: Fellowship
     user_key: name
   Response:
@@ -214,8 +214,8 @@ resources:
     - direction: toone
       fks:
       - user_id
-      name: user
-      resource: User
+      name: users
+      resource: Users
     type: Response
     user_key: id
   Tag:
@@ -241,7 +241,7 @@ resources:
       resource: Fellowship
     type: Tag
     user_key: tag_name
-  User:
+  Users:
     attributes:
     - label: ' name*'
       name: name
@@ -270,7 +270,7 @@ resources:
       - fellowship_name
       name: fellowship
       resource: Fellowship
-    type: User
+    type: Users
     user_key: name
 settings:
   HomeJS: /admin-app/home.js

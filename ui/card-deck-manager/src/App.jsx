@@ -167,16 +167,9 @@ const CardDeckManager = () => {
             </style>
           </head>
           <body>
-            <h1>Cards</h1>
-            <div>
-              ${deck.map(card => `
-                <div class="card">
-                  <h2>${card.name}</h2>
-                  <p>Tags: ${card.tags.join(', ')}</p>
-                </div>
-              `).join('')}
-            </div>
+            <h1>My Three Circles</h1>
             <h1>Inner Circle</h1>
+            <p>Cards in the inner circle describe the behaviors that are considered 'acting-out'.</p>
             <div>
               ${redBox.map(card => `
                 <div class="card">
@@ -186,6 +179,7 @@ const CardDeckManager = () => {
               `).join('')}
             </div>
             <h1>Middle Circle</h1>
+            <p>Cards in the middle circle are important and should be viewed as relapse warnings.</p>
             <div>
               ${orangeBox.map(card => `
                 <div class="card">
@@ -195,6 +189,7 @@ const CardDeckManager = () => {
               `).join('')}
             </div>
             <h1>Outer Circle</h1>
+            <p>Cards in the outer circle are the healthy behaviors we engage in daily.</p>
             <div>
               ${greenBox.map(card => `
                 <div class="card">

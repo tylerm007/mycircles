@@ -163,7 +163,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         data =[]
         for card in inventory:
             card_text = getCardText(cards, card.card.id)
-            circle_type = getCardSelection(card_selection, card.id)
+            circle_type = getCardSelection(card_selection, card.card_id)
             row = {"id": card.card_id, "text": card_text, "flag": card.response_bool, "type": circle_type}
             data.append(row)
 

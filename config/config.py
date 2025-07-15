@@ -152,7 +152,7 @@ class Config:
     # als add-auth --provider-type=sql --db-url=
     # als add-auth --provider-type=keycloak --db-url=localhost
     # als add-auth --provider-type=keycloak --db-url=http://10.0.0.77:8080
-    kc_base = 'http://localhost:8080'
+    kc_base = os.getenv('KEYCLOAK_BASE','http://localhost:8080')
     #kc_base = 'http://localhost:8080'
     ''' keycloak location '''
     KEYCLOAK_REALM =  os.getenv('KEYCLOAK_REALM','kcals')
