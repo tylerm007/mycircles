@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import './LoginPage.css';
 
 const LoginPage = () => {
     const { login, loading } = useAuth();
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
@@ -12,9 +12,9 @@ const LoginPage = () => {
         e.preventDefault();
         setError(null);
         try {
-            await login(email, password);
+            await login(username, password);
         } catch (err) {
-            setError('Invalid email or password');
+            setError('Invalid username or password');
         }
     };
 
@@ -24,12 +24,12 @@ const LoginPage = () => {
                 <h2>Login</h2>
                 {error && <p className="error-message">{error}</p>}
                 <div className="form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="username">Username</label>
                     <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         required
                     />
                 </div>

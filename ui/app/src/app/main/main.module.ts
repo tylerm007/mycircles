@@ -6,8 +6,6 @@ import { SharedModule } from '../shared/shared.module';
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
 
-import { OntimizeKeycloakModule } from 'ontimize-web-ngx-keycloak';
-
 
 @NgModule({
   imports: [
@@ -16,8 +14,6 @@ import { OntimizeKeycloakModule } from 'ontimize-web-ngx-keycloak';
     MainRoutingModule,
     OChartModule,
     OReportModule
-    
-    ,OntimizeKeycloakModule
     
   ],
   declarations: [

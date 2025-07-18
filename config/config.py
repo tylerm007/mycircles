@@ -169,8 +169,8 @@ class Config:
         SECURITY_ENABLED = security_export not in ["false", "no"]  # NO SEC
         app_logger.debug(f'Security .. overridden from env variable SECURITY_ENABLED: {SECURITY_ENABLED}')
     if SECURITY_ENABLED:
-        from security.authentication_provider.keycloak.auth_provider import Authentication_Provider as SQL_Authentication_Provider
-        from security.authentication_provider.keycloak.auth_provider import Authentication_Provider as KC_Authentication_Provider
+        from security.authentication_provider.sql.auth_provider import Authentication_Provider as SQL_Authentication_Provider
+        from security.authentication_provider.sql.auth_provider import Authentication_Provider as KC_Authentication_Provider
         # typically, authentication_provider is [ keycloak | sql ]
         SECURITY_PROVIDER = KC_Authentication_Provider if "keycloak" in str(SECURITY_PROVIDER).lower() else SQL_Authentication_Provider
     

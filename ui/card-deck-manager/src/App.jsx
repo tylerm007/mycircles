@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
 import CardCreatorDialog from './Card'; // 
 import InventoryCalendar from './inventory';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
 
 // Mobile drag-and-drop support
 // We'll use touch events to simulate drag-and-drop for mobile devices
@@ -505,9 +506,11 @@ const CardDeckManager = () => {
 // Main App component with AuthProvider wrapper
 const App = () => {
   return (
-    <AuthProvider>
-      <CardDeckManager />
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <CardDeckManager />
+      </AuthProvider>
+    </ErrorBoundary>
   );
 };
 

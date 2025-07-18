@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import LoginPage from '../components/LoginPage';
+import LoginPage from '../components/LoginPage.jsx';
 
 const AuthContext = createContext();
 
@@ -16,24 +16,24 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(null);
 
-    const login = async (email, password) => {
+    const login = async (username, password) => {
         setLoading(true);
         try {
             // Simulate an API call for authentication
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('http://localhost:5656/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username, password }),
             });
 
             if (response.ok) {
                 const data = await response.json();
                 setAuthenticated(true);
-                setToken(data.auth_);
+                setToken(data.access_token);
                 setUser({
-                    email: data.email,
+                    username: data.username,
                     name: data.name,
                 });
             } else {
@@ -51,6 +51,20 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    const setToken = (token) => {
+        localStorage.setItem('authToken', token);
+    };
+
+    const clearToken = () => {
+        localStorage.removeItem('authToken');
+    };
+
+    const getToken = () => {
+        return localStorage.getItem('authToken');
+    };
+    const getUser = () => {
+        return user;
+    };
     const value = {
         authenticated,
         user,
@@ -60,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     if (!authenticated) {
-        return <LoginPage />;
+        return React.createElement(AuthContext.Provider, { value }, React.createElement(LoginPage));
     }
 
     return React.createElement(AuthContext.Provider, { value }, children);
