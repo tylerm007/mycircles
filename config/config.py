@@ -129,8 +129,9 @@ class Config:
 
 
     # Database
-    db_path = str(project_path.joinpath('database/db.sqlite'))
-    SQLALCHEMY_DATABASE_URI : typing.Optional[str] = f"postgresql://postgres:postgres@127.0.0.1:5432/circles"
+    db_path = str(project_path.joinpath('database/mycircles.sqlite'))
+    SQLALCHEMY_DATABASE_URI : typing.Optional[str] = f'sqlite:///{db_path}'
+    #f"postgresql://postgres:postgres@127.0.0.1:5432/circles"
     # override SQLALCHEMY_DATABASE_URI here as required
 
     BACKTIC_AS_QUOTE = False # use backtic as quote for table names for API Bridge

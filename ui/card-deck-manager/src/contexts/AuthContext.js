@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import keycloak from '../keycloak';
+import React, { createContext, useContext, useState } from 'react';
+import LoginPage from '../components/LoginPage';
 
 const AuthContext = createContext();
 
@@ -13,57 +13,42 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [authenticated, setAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        const initKeycloak = async () => {
-            try {
-                const authenticated = await keycloak.init({
-                    onLoad: 'check-sso',
-                    silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
+    const login = async (email, password) => {
+        setLoading(true);
+        try {
+            // Simulate an API call for authentication
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setAuthenticated(true);
+                setToken(data.auth_);
+                setUser({
+                    email: data.email,
+                    name: data.name,
                 });
-
-                setAuthenticated(authenticated);
-
-                if (authenticated) {
-                    setUser({
-                        username: keycloak.tokenParsed?.preferred_username,
-                        email: keycloak.tokenParsed?.email,
-                        name: keycloak.tokenParsed?.name,
-                    });
-                }
-            } catch (error) {
-                console.error('Failed to initialize Keycloak:', error);
-            } finally {
-                setLoading(false);
+            } else {
+                throw new Error('Invalid credentials');
             }
-        };
-
-        initKeycloak();
-    }, []);
-
-    const login = () => {
-        keycloak.login();
+        } catch (error) {
+            console.error('Login failed:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const logout = () => {
-        keycloak.logout();
-    };
-
-    const getEmail = () => {
-        if (!keycloak.tokenParsed) {
-            return '';
-        }
-        return keycloak.tokenParsed?.email || '';
-    };
-
-    const getToken = () => {
-        return keycloak.token;
-    };
-
-    const refreshToken = () => {
-        return keycloak.updateToken(30);
+        setAuthenticated(false);
+        setUser(null);
     };
 
     const value = {
@@ -71,11 +56,12 @@ export const AuthProvider = ({ children }) => {
         user,
         login,
         logout,
-        getToken,
-        getEmail,
-        refreshToken,
         loading,
     };
+
+    if (!authenticated) {
+        return <LoginPage />;
+    }
 
     return React.createElement(AuthContext.Provider, { value }, children);
 };

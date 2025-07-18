@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Boolean, CheckConstraint, Column, Date, ForeignKey, ForeignKeyConstraint, Integer, String, Text, UniqueConstraint, text
+from sqlalchemy import Boolean, CheckConstraint, Column, Date, ForeignKey, ForeignKeyConstraint, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -25,7 +25,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Mapped
 from sqlalchemy.sql.sqltypes import NullType
 from typing import List
-from sqlalchemy import Sequence
 
 db = SQLAlchemy() 
 Base = declarative_base()  # type: flask_sqlalchemy.model.DefaultMeta
@@ -33,8 +32,6 @@ metadata = Base.metadata
 
 #NullType = db.String  # datatype fixup
 #TIMESTAMP= db.TIMESTAMP
-
-from sqlalchemy.dialects.postgresql import *
 
 if os.getenv('APILOGICPROJECT_NO_FLASK') is None or os.getenv('APILOGICPROJECT_NO_FLASK') == 'None':
     Base = SAFRSBaseX   # enables rules to be used outside of Flask, e.g., test data loading
@@ -61,9 +58,7 @@ class Cardtype(Base):  # type: ignore
 class Circle(Base):  # type: ignore
     __tablename__ = 'circle'
     _s_collection_name = 'Circle'  # type: ignore
-    __table_args__ = (
-        CheckConstraint("circle_type::text = ANY (ARRAY['Inner'::character varying, 'Middle'::character varying, 'Outer'::character varying]::text[])"),
-    )
+
 
     circle_type = Column(String(10), primary_key=True)
     decription = Column(Text)
@@ -82,9 +77,9 @@ class DailyResponseCount(Base):  # type: ignore
 
     user_id = Column(Integer, primary_key=True, nullable=False)
     response_date = Column(Date, primary_key=True, nullable=False)
-    count_inner = Column(Integer, server_default=text("0"))
-    count_middle = Column(Integer, server_default=text("0"))
-    count_outer = Column(Integer, server_default=text("0"))
+    count_inner = Column(Integer, default=0)  # Updated for SQLite
+    count_middle = Column(Integer, default=0)  # Updated for SQLite
+    count_outer = Column(Integer, default=0)  # Updated for SQLite
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
@@ -116,11 +111,11 @@ class Card(Base):  # type: ignore
     __tablename__ = 'card'
     _s_collection_name = 'Card'  # type: ignore
 
-    id = Column(Integer, server_default=text("nextval('card_id_seq'::regclass)"), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)  # Updated for SQLite
     fellowship_name = Column(ForeignKey('fellowship.name', ondelete='CASCADE'))
     circle_text = Column(Text, nullable=False)
     card_type = Column(ForeignKey('cardtype.card_type'))
-    is_active = Column(Boolean, server_default=text("true"))
+    is_active = Column(Boolean, default=True)  # Updated for SQLite
 
     # parent relationships (access parent)
     cardtype : Mapped["Cardtype"] = relationship(back_populates=("CardList"))
@@ -140,7 +135,7 @@ class Tag(Base):  # type: ignore
         UniqueConstraint('tag_name', 'fellowship_name'),
     )
 
-    id = Column(Integer, server_default=text("nextval('tags_id_seq'::regclass)"), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)  # Updated for SQLite
     tag_name = Column(String(50), nullable=False)
     fellowship_name = Column(ForeignKey('fellowship.name'), nullable=False)
 
@@ -156,7 +151,7 @@ class Users(Base):  # type: ignore
     __tablename__ = 'users'
     _s_collection_name = 'Users'  # type: ignore
 
-    id = Column(Integer, server_default=text("nextval('users_id_seq'::regclass)"), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)  # Updated for SQLite
     name = Column(String(100), nullable=False)
     password_hash = Column(String(250))
     password_salt = Column(String(250))
@@ -180,11 +175,11 @@ class CardSelection(Base):  # type: ignore
         UniqueConstraint('user_id', 'card_id', 'circle_type'),
     )
 
-    id = Column(Integer, server_default=text("nextval('card_selection_id_seq'::regclass)"), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)  # Updated for SQLite
     user_id = Column(ForeignKey('users.id'))
     card_id = Column(ForeignKey('card.id'))
     circle_type = Column(ForeignKey('circle.circle_type'))
-    selected_date = Column(Date, server_default=text("CURRENT_TIMESTAMP"), nullable=False)
+    selected_date = Column(Date, default='CURRENT_TIMESTAMP', nullable=False)
 
     # parent relationships (access parent)
     card : Mapped["Card"] = relationship(back_populates=("CardSelectionList"))
@@ -200,7 +195,7 @@ class CardTag(Base):  # type: ignore
     __tablename__ = 'card_tag'
     _s_collection_name = 'CardTag'  # type: ignore
 
-    id = Column(Integer, server_default=text("nextval('card_tag_id_seq'::regclass)"), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)  # Updated for SQLite
     card_id = Column(ForeignKey('card.id'), nullable=False)
     tag_id = Column(ForeignKey('tags.id'), nullable=False)
 
@@ -220,11 +215,11 @@ class Response(Base):  # type: ignore
         UniqueConstraint('user_id', 'card_id', 'response_date')
     )
 
-    id = Column(Integer, Sequence('response_id_seq'), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)  # Updated for SQLite
     user_id = Column(ForeignKey('users.id'))
     card_id = Column(ForeignKey('card.id'))
     circle_type = Column(String(20))
-    response_date = Column(Date, server_default=text("CURRENT_TIMESTAMP"), nullable=False)
+    response_date = Column(Date, default='CURRENT_TIMESTAMP', nullable=False)  # Updated for SQLite
     response_text = Column(Text)
     response_bool = Column(Boolean)
     response_range = Column(Integer)
@@ -235,3 +230,4 @@ class Response(Base):  # type: ignore
     users : Mapped["Users"] = relationship(back_populates=("ResponseList"))
 
     # child relationships (access children)
+
