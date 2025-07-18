@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Boolean, CheckConstraint, Column, Date, ForeignKey, ForeignKeyConstraint, Integer, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, CheckConstraint, Column, Date, ForeignKey, ForeignKeyConstraint, Integer, String, Text, UniqueConstraint, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -179,7 +179,7 @@ class CardSelection(Base):  # type: ignore
     user_id = Column(ForeignKey('users.id'))
     card_id = Column(ForeignKey('card.id'))
     circle_type = Column(ForeignKey('circle.circle_type'))
-    selected_date = Column(Date, default='CURRENT_TIMESTAMP', nullable=False)
+    selected_date = Column(Date, server_default=(text('CURRENT_TIMESTAMP')), nullable=False)
 
     # parent relationships (access parent)
     card : Mapped["Card"] = relationship(back_populates=("CardSelectionList"))

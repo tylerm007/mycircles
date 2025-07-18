@@ -160,14 +160,44 @@ const InventoryCalendar: React.FC<InventoryCalendarProps> = ({ open, onClose }) 
                                     {groupedInventory[type].map(item => (
                                         <div className="inventory-item" key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #e2e8f0' }}>
                                             <div className="item-text" style={{ flex: 1 }}>{item.text}</div>
-                                            <Button
-                                                variant={item.flag ? "contained" : "outlined"}
-                                                color={item.flag ? "success" : "inherit"}
-                                                onClick={() => updateFlag(item.id, !item.flag)}
-                                                style={{ marginLeft: 'auto', minWidth: 80 }}
-                                            >
-                                                {item.flag ? "Yes" : "No"}
-                                            </Button>
+                                            <div>&nbsp;</div>
+                                            <label className="toggle-switch" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={item.flag}
+                                                    onChange={(e) => updateFlag(item.id, e.target.checked)}
+                                                    style={{ display: 'none' }}
+                                                />
+                                                <div
+                                                    className="toggle-slider"
+                                                    style={{
+                                                        width: 50,
+                                                        height: 24,
+                                                        backgroundColor: item.flag ? '#4caf50' : '#ccc',
+                                                        borderRadius: 12,
+                                                        position: 'relative',
+                                                        transition: 'background-color 0.3s ease'
+                                                    }}
+                                                >
+                                                    <div
+                                                        className="toggle-thumb"
+                                                        style={{
+                                                            width: 20,
+                                                            height: 20,
+                                                            backgroundColor: 'white',
+                                                            borderRadius: '50%',
+                                                            position: 'absolute',
+                                                            top: 2,
+                                                            left: item.flag ? 28 : 2,
+                                                            transition: 'left 0.3s ease',
+                                                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                                        }}
+                                                    />
+                                                </div>
+                                                <span style={{ marginLeft: 8, fontSize: 14, color: item.flag ? '#4caf50' : '#666' }}>
+                                                    {item.flag ? "Yes" : "No"}
+                                                </span>
+                                            </label>
                                         </div>
                                     ))}
                                 </div>

@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
             if (response.ok) {
                 const data = await response.json();
                 setAuthenticated(true);
-                setToken(data.access_token);
+                localStorage.setItem('authToken', data.access_token);
                 setUser({
                     username: data.username,
                     name: data.name,
@@ -49,28 +49,20 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setAuthenticated(false);
         setUser(null);
-    };
-
-    const setToken = (token) => {
-        localStorage.setItem('authToken', token);
-    };
-
-    const clearToken = () => {
         localStorage.removeItem('authToken');
     };
 
     const getToken = () => {
         return localStorage.getItem('authToken');
     };
-    const getUser = () => {
-        return user;
-    };
+
     const value = {
         authenticated,
         user,
         login,
         logout,
         loading,
+        getToken, // Ensure getToken is included in the context value
     };
 
     if (!authenticated) {

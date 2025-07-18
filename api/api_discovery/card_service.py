@@ -93,7 +93,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         return inventory
     
     @app.route('/update_inventory', methods=['POST', 'OPTIONS'])
-    #@jwt_required()
+    @jwt_required()
     def update_inventory():
         if request.method == 'OPTIONS':
             return jsonify({"message": "CORS preflight response"}), 200
@@ -122,7 +122,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         return jsonify({"message": "Inventory Updated"}), 200
 
     @app.route('/load_inventory', methods=['POST', 'OPTIONS'])
-    #@jwt_required()
+    @jwt_required()
     def load_inventory():
         """
         Illustrates:    
@@ -130,13 +130,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         curl -X POST http://localhost:5656/inventory_date
         
         
-        if request.method == 'OPTIONS':
-            return jsonify({"message": "CORS preflight response"}), 200
-        payload = request.json
-        date = payload.get('date', None)
-        if not date:
-            app_logger.error('No date provided in payload')
-            return jsonify({"error": "No date provided"}), 400
+        
         date_obj = datetime.strptime(date, '%Y-%m-%d').date()
         user_id = Column(ForeignKey('users.id'))
         card_id = Column(ForeignKey('card_selection.id'))
@@ -147,6 +141,14 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         response_range = Column(Integer)
         
         """
+        if request.method == 'OPTIONS':
+            return jsonify({"message": "CORS preflight response"}), 200
+        payload = request.json
+        date = payload.get('date', None)
+        if not date:
+            app_logger.error('No date provided in payload')
+            return jsonify({"error": "No date provided"}), 400
+        
         user_id = get_user_id()
         
         app_logger.info(f'Inventory date request with payload: {payload}')
@@ -175,7 +177,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         return jsonify(data), 200
     
     @app.route('/new_card', methods=['POST','OPTIONS'])
-    #@jwt_required()
+    @jwt_required()
     def new_card():
         
         """
@@ -223,7 +225,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         return jsonify({"status": "success", "message": "Card created successfully", "card_id": new_card.id}), 201
  
     @app.route('/update_cards', methods=['POST'])
-    #@jwt_required()
+    @jwt_required()
     def update_cards():
         '''
         Illustrates: save selection
@@ -258,7 +260,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         return jsonify({"status": "success", "message": "Cards updated successfully"}), 200
     
     @app.route('/get_cards', methods=['GET'])
-    #@jwt_required()
+    @jwt_required()
     def get_cards():
         """
         Illustrates:    
@@ -318,7 +320,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         return jsonify({"cards": cards, "red": red, "orange": orange, "green": green})
     
     @app.route('/reset_cards', methods=['GET'])
-    #@jwt_required()
+    @jwt_required()
     def reset_cards():
         user_id = get_user_id()
         session.query(models.CardSelection).filter_by(user_id=user_id).delete()
@@ -426,7 +428,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         
         # Assuming you have a way to get the current user from the JWT token
         # This is a placeholder function; implement your logic to extract user ID
-        
+        """
         from security.system.authorization import Security
         user_info = Security.current_user()
         user = session.query(models.Users).filter_by(name=user_info['name']).first()
@@ -438,5 +440,5 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             app_logger.info(f'Created new user: {user.name}')
             # If you want to return None when user is not found, uncomment the next line
             session.flush()
-        """
-        return 1 #user.id
+        
+        return user.id
