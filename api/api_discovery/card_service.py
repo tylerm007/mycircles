@@ -211,6 +211,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         tag = models.Tag(tag_name=tag_name.strip(), fellowship_name=data['fellowship'])
                         session.add(tag)
                         session.commit()
+                        session.flush()
                     card_tag = models.CardTag(card_id=new_card.id, tag_id=tag.id)
                     session.add(card_tag)
             

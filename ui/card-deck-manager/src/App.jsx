@@ -47,6 +47,35 @@ const CardDeckManager = () => {
   const [initialDeck, setInitialDeck] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showInventoryDialog, setShowInventoryDialog] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+
+  // Success Dialog Component
+  const SuccessDialog = () => {
+    console.log('Showing success dialog',showSuccessDialog);
+    if (!showSuccessDialog) return null;
+    
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4 shadow-xl">
+          <div className="text-center">
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+              <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Success!</h3>
+            <p className="text-sm text-gray-500 mb-4">Your cards have been saved successfully.</p>
+            <button
+              onClick={() => setShowSuccessDialog(false)}
+              className="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
   // Fetch cards from API on component mount
   useEffect(() => {
     // Only fetch cards if user is authenticated
@@ -76,7 +105,7 @@ const CardDeckManager = () => {
             ...green,
             tags: green.tags || [] // Ensure tags is always an array
           }));
-            const orange = resp.orange.map(orange => ({
+          const orange = resp.orange.map(orange => ({
             ...orange,
             tags: orange.tags || [] // Ensure tags is always an array
           }));
@@ -152,7 +181,7 @@ const CardDeckManager = () => {
   const inventory = () => {
     console.log('Opening inventory dialog');
     setShowInventoryDialog(true);
-  };    
+  };
   const print = () => {
     const printWindow = window.open('', '_blank');
     if (printWindow) {
@@ -209,7 +238,7 @@ const CardDeckManager = () => {
     } else {
       console.error('Failed to open print window');
     }
-  };        
+  };
 
   const reset = async () => {
     setDeck([]);
@@ -217,7 +246,7 @@ const CardDeckManager = () => {
     setOrangeBox([]);
     setGreenBox([]);
     setSearchTerm('');
-    try{
+    try {
       const token = getToken();
       const response = await fetch('http://localhost:5656/reset_cards', {
         headers: {
@@ -237,32 +266,36 @@ const CardDeckManager = () => {
   };
 
   const save = async () => {
-  try {
-    const cardData = {
-      cards: deck,
-      red: redBox,
-      orange: orangeBox,
-      green: greenBox
-    };
-    
-    const token = getToken();
-    const response = await fetch('http://localhost:5656/update_cards', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(cardData),
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to save cards');
+    try {
+      const cardData = {
+        cards: deck,
+        red: redBox,
+        orange: orangeBox,
+        green: greenBox
+      };
+
+      const token = getToken();
+      const response = await fetch('http://localhost:5656/update_cards', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(cardData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save cards');
+      }
+
+      const resp = await response.json();
+      console.log('Save response:', resp);
+      console.log('Cards saved successfully');
+      setShowSuccessDialog(true)
+      SuccessDialog();
+    } catch (error) {
+      console.error('Error saving cards:', error);
     }
-    
-    console.log('Cards saved successfully');
-  } catch (error) {
-    console.error('Error saving cards:', error);
-  }
   };
 
   // Filter cards based on search term
@@ -365,6 +398,9 @@ const CardDeckManager = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
+      {/* Render SuccessDialog */}
+      <SuccessDialog />
+
       {/* Header with user info and logout */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Three Circles Manager</h1>
@@ -374,7 +410,7 @@ const CardDeckManager = () => {
           </span>
           <button
             onClick={logout}
-            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             Logout
           </button>
@@ -383,6 +419,7 @@ const CardDeckManager = () => {
 
       {/* Search Bar */}
       <div className="mb-6 flex justify-between items-center">
+        <div className="mb-6 flex">
         <input
           type="text"
           placeholder="Search cards by name or tags..."
@@ -391,34 +428,35 @@ const CardDeckManager = () => {
           className="max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
-            onClick={addCard}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
-          >
-            Add Card
-          </button>
-          <div>&nbsp;</div>
-          <button
-            onClick={inventory}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
-          >
-            Daily Inventory
-          </button>
+          onClick={addCard}
+          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Add Card
+        </button>
+        <div>&nbsp;</div>
+        <button
+          onClick={inventory}
+          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Daily Inventory
+        </button>
+        </div>
         <div className="flex gap-2 ml-auto">
           <button
             onClick={reset}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Reset
           </button>
           <button
             onClick={save}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Save
           </button>
           <button
             onClick={print}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap"
+            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Print
           </button>
@@ -435,7 +473,7 @@ const CardDeckManager = () => {
             style={{ minHeight: 0 }}
           >
             <div className="font-bold text-lg mb-8 text-center sticky top-0 bg-blue-50 bg-opacity-90 backdrop-blur-sm rounded px-4 py-2 text-blue-700">
-              Deck{searchTerm ? ` (${filteredDeck.length}/${deck.length} shown)` : ''} ({deck.length})
+              Cards{searchTerm ? ` (${filteredDeck.length}/${deck.length} shown)` : ''} ({deck.length})
             </div>
             <div className="space-y-4 flex-1 overflow-y-auto text-blue-700">
               {filteredDeck.map(card => (
@@ -450,9 +488,10 @@ const CardDeckManager = () => {
 
           <DropZone
             target="red"
-            label="Inner"
+            label="Inner Circle"
             bgColor="drop-zone-red"
             count={redBox.length}
+            tooltip="Cards in the inner circle describe the behaviors that are considered 'acting-out'."
           >
 
             {redBox.map(card => (
@@ -462,9 +501,10 @@ const CardDeckManager = () => {
           </DropZone>
           <DropZone
             target="orange"
-            label="Middle"
+            label="Middle Circle"
             bgColor="drop-zone-orange"
             count={orangeBox.length}
+            tooltip="Cards in the middle circle are important and should be viewed as relapse warnings."
           >
 
             {orangeBox.map(card => (
@@ -474,9 +514,10 @@ const CardDeckManager = () => {
           </DropZone>
           <DropZone
             target="green"
-            label="Outer"
+            label="Outer Circle"
             bgColor="drop-zone-green"
             count={greenBox.length}
+            tooltip="Cards in the outer circle are the healthy behaviors we engage in daily."
           >
 
             {greenBox.map(card => (

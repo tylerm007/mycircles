@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "production": "ng build --base-href=/ontimize-app/"
+    "production": "ng build --base-href=/mycircles-app/"
   },
   "private": true,
   "engines": {
