@@ -1,53 +1,60 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
-import './LoginPage.css';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Typography } from '@mui/material';
 
 const LoginPage = () => {
     const { login, loading } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const [open, setOpen] = useState(true);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         try {
             await login(username, password);
+            setOpen(false);
         } catch (err) {
             setError('Invalid username or password');
         }
     };
 
     return (
-        <div className="login-container">
-            <form className="login-form" onSubmit={handleSubmit}>
-                <h2>Login</h2>
-                {error && <p className="error-message">{error}</p>}
-                <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        id="username"
+        <Dialog open={open} onClose={() => setOpen(false)}>
+            <DialogTitle>Login</DialogTitle>
+            <DialogContent>
+                {error && <Typography color="error">{error}</Typography>}
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        label="Username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        fullWidth
+                        margin="normal"
                         required
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
+                    <TextField
+                        label="Password"
                         type="password"
-                        id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        fullWidth
+                        margin="normal"
                         required
                     />
-                </div>
-                <button type="submit" disabled={loading}>
+                    <button type="submit" style={{ display: 'none' }} aria-hidden="true" />
+                </form>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setOpen(false)} color="secondary">
+                    Cancel
+                </Button>
+                <Button onClick={handleSubmit} color="primary" disabled={loading} type="submit">
                     {loading ? 'Logging in...' : 'Login'}
-                </button>
-            </form>
-        </div>
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 };
 

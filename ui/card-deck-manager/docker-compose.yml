@@ -3,14 +3,16 @@ services:
   sqlite3:
     # hmm... runs, but not access; SQLAlchemy syntax for sqlite service?  (it's just files below)
     image: nouchka/sqlite3:latest
+    platform: linux/amd64
     stdin_open: true
     tty: true
     volumes:
       - ../../database/:/root/db/
     # thanks: https://stackoverflow.com/questions/65811608/how-to-connect-flask-app-to-sqlite-db-running-in-docker
-
   mycircles_server:
       image: tylerm007/mycircles
+      platform: linux/amd64
+      environment:
       environment:
         - APILOGICPROJECT_VERBOSE=true
         - SECURITY_ENABLED=true

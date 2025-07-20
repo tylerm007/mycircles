@@ -1,5 +1,8 @@
 # Stage 1: Build the Vite application
 # docker build -f Dockerfile -t tylerm007/card-deck-manager --rm .
+# docker tag tylerm007/card-deck-manager tylerm007/card-deck-manager:latest
+# docker push tylerm007/card-deck-manager:latest  # requires docker login
+# docker run --name card_deck_manager_container -p 5173:5173 tylerm007/card-deck-manager:latest
 FROM node:18-alpine AS builder
 
 WORKDIR /app
