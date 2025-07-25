@@ -39,7 +39,7 @@ const CardCreatorDialog = ({ open, onClose, onSave }) => {
         
         try {
             const token = await getToken();
-            const response = await fetch("http://localhost:5656/new_card", {
+            const response = await fetch("http://mythreecircle.com:5656/new_card", {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -81,7 +81,7 @@ const CardCreatorDialog = ({ open, onClose, onSave }) => {
         } catch (error) {
             if (error.name === "TypeError" && error.message.includes("fetch")) {
                 showMessage(
-                    "Cannot connect to server. Please make sure the API is running on localhost:5656",
+                    "Cannot connect to server. Please make sure the API is running on mythreecircle.com:5656",
                     "error"
                 );
             } else {

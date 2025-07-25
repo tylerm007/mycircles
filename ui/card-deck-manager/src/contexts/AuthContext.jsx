@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
         try {
             // Simulate an API call for authentication
-            const response = await fetch('http://localhost:5656/api/auth/login', {
+            const response = await fetch('http://mythreecircle.com:5656/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

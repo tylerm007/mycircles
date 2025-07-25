@@ -84,7 +84,7 @@ const CardDeckManager = () => {
     const fetchCards = async () => {
       try {
         const token = getToken();
-        const response = await fetch('http://localhost:5656/get_cards', {
+        const response = await fetch('http://mythreecircle.com:5656/get_cards', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ const CardDeckManager = () => {
     setSearchTerm('');
     try {
       const token = getToken();
-      const response = await fetch('http://localhost:5656/reset_cards', {
+      const response = await fetch('http://mythreecircle.com:5656/reset_cards', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -275,7 +275,7 @@ const CardDeckManager = () => {
       };
 
       const token = getToken();
-      const response = await fetch('http://localhost:5656/update_cards', {
+      const response = await fetch('http://mythreecircle.com:5656/update_cards', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

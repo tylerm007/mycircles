@@ -53,7 +53,7 @@ const InventoryCalendar: React.FC<InventoryCalendarProps> = ({ open, onClose }) 
         setSuccess(null);
         try {
             const token = await getToken();
-            const response = await fetch('http://localhost:5656/load_inventory', {
+            const response = await fetch('http://mythreecircle.com:5656/load_inventory', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ date })
@@ -80,7 +80,7 @@ const InventoryCalendar: React.FC<InventoryCalendarProps> = ({ open, onClose }) 
         setLoading(true);
         try {
             const token = await getToken();
-            const response = await fetch('http://localhost:5656/update_inventory', {
+            const response = await fetch('http://mythreecircle.com:5656/update_inventory', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ date: selectedDate, inventory })
