@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext.jsx';
 import CardCreatorDialog from './Card'; // 
 import InventoryCalendar from './inventory';
@@ -84,7 +84,8 @@ const CardDeckManager = () => {
     const fetchCards = async () => {
       try {
         const token = getToken();
-        const response = await fetch('http://mythreecircle.com:5656/get_cards', {
+        const apiUrl = import.meta.env.VITE_GENAI_LOGIC_URL;
+        const response = await fetch(`${apiUrl}/get_cards`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -248,7 +249,8 @@ const CardDeckManager = () => {
     setSearchTerm('');
     try {
       const token = getToken();
-      const response = await fetch('http://mythreecircle.com:5656/reset_cards', {
+      const apiUrl = import.meta.env.VITE_GENAI_LOGIC_URL
+      const response = await fetch(`${apiUrl}/reset_cards`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -275,7 +277,8 @@ const CardDeckManager = () => {
       };
 
       const token = getToken();
-      const response = await fetch('http://mythreecircle.com:5656/update_cards', {
+      const apiUrl = import.meta.env.VITE_GENAI_LOGIC_URL
+      const response = await fetch(`${apiUrl}/update_cards`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

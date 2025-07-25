@@ -19,8 +19,10 @@ export const AuthProvider = ({ children }) => {
     const login = async (username, password) => {
         setLoading(true);
         try {
+            const apiUrl = import.meta.env.VITE_GENAI_LOGIC_URL || 'http://localhost:3000';
+            console.log('API URL:', apiUrl);
             // Simulate an API call for authentication
-            const response = await fetch('http://mythreecircle.com:5656/api/auth/login', {
+            const response = await fetch(`${apiUrl}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

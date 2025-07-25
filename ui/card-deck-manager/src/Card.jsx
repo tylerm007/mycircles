@@ -39,7 +39,8 @@ const CardCreatorDialog = ({ open, onClose, onSave }) => {
         
         try {
             const token = await getToken();
-            const response = await fetch("http://mythreecircle.com:5656/new_card", {
+            const apiUrl = import.meta.env.REACT_APP_GENAI_LOGIC_URL
+            const response = await fetch(`${apiUrl}/new_card`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
