@@ -32,5 +32,5 @@ COPY --from=builder /app/dist ./dist
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 
-EXPOSE 4299
+EXPOSE 4300
 CMD ["nginx", "-g", "daemon off;"]
